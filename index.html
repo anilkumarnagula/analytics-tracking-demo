@@ -15,7 +15,7 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             margin: 0;
             padding: 0;
-            color: var-dark;
+            color: var(--dark);
             background-color: var(--light);
         }
         header {
@@ -51,7 +51,6 @@
             margin-bottom: 2rem;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
-        /* E-commerce Grid */
         .products {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -72,7 +71,6 @@
             cursor: pointer;
             font-weight: 500;
         }
-        /* Accordion */
         .accordion-item {
             border: 1px solid var(--border);
             margin-bottom: 0.5rem;
@@ -90,7 +88,6 @@
             display: none;
             border-top: 1px solid var(--border);
         }
-        /* Form */
         .form-group {
             margin-bottom: 1rem;
         }
@@ -107,30 +104,26 @@
             box-sizing: border-box;
         }
     </style>
-    <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-KQ82FXD7');</script>
-<!-- End Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-KQ82FXD7');</script>
     <script>
         window.dataLayer = window.dataLayer || [];
     </script>
 </head>
 <body>
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KQ82FXD7"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KQ82FXD7"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <header>
         <nav>
-            <div class="logo"><strong>AnalyticsDemo</strong></div>
+            <div class="logo" style="cursor:pointer;" onclick="trackLogoClick()"><strong>AnalyticsDemo</strong></div>
             <div class="nav-links">
-                <a href="#ecommerce" onclick="trackNav('E-commerce Section')">Shop</a>
-                <a href="#video" onclick="trackNav('Video Section')">Watch</a>
-                <a href="#features" onclick="trackNav('Features Accordion')">FAQ</a>
-                <a href="#contact" onclick="trackNav('Contact Form')">Contact</a>
+                <a href="#ecommerce" onclick="trackNav('Shop')">Shop</a>
+                <a href="#video" onclick="trackNav('Watch')">Watch</a>
+                <a href="#features" onclick="trackNav('FAQ')">FAQ</a>
+                <a href="#contact" onclick="trackNav('Contact')">Contact</a>
             </div>
         </nav>
     </header>
@@ -198,18 +191,32 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
 
     <script>
-        // 1. Navigation Click Tracking
+        // 1. Brand Logo Tracking Function
+        function trackLogoClick() {
+            dataLayer.push({
+                'event': 'logo_click',
+                'gtm.elementText': 'AnalyticsDemo',
+                'gtm.elementUrl': window.location.origin + '/'
+            });
+            window.location.href = '#';
+        }
+
+        // 2. Navigation Click Tracking (Aligned to use standard GTM built-in auto-variables)
         function trackNav(menuName) {
             dataLayer.push({
                 'event': 'navigation_click',
-                'nav_menu_name': menuName
+                'gtm.elementText': menuName, 
+                'gtm.elementUrl': '#' + menuName.toLowerCase(),
+                'page_section': 'Header Navigation'
             });
         }
 
-        // 2. E-commerce Add to Cart Tracking (GA4 Schema compliant)
+        // 3. E-commerce Add to Cart Tracking (Aligned to use your custom variable configuration mapping)
         function trackAddToCart(id, name, price) {
             dataLayer.push({
                 'event': 'add_to_cart',
+                'currency': 'USD',
+                'value': price,
                 'ecommerce': {
                     'currency': 'USD',
                     'value': price,
@@ -221,27 +228,27 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     }]
                 }
             });
-            alert(name + ' added to cart! Check your console/dataLayer.');
+            alert(name + ' added to cart!');
         }
 
-        // 3. Video Tracking (Play, Pause)
+        // 4. Video Tracking (Aligned with custom event trigger name: video_start__video_pause)
         const video = document.getElementById('demoVideo');
         video.addEventListener('play', () => {
             dataLayer.push({
-                'event': 'video_start',
+                'event': 'video_start__video_pause',
                 'video_title': 'For Bigger Blazes',
-                'video_current_time': video.currentTime
+                'video_current_time': video.currentTime.toFixed(2)
             });
         });
         video.addEventListener('pause', () => {
             dataLayer.push({
-                'event': 'video_pause',
+                'event': 'video_start__video_pause',
                 'video_title': 'For Bigger Blazes',
-                'video_current_time': video.currentTime
+                'video_current_time': video.currentTime.toFixed(2)
             });
         });
 
-        // 4. Accordion / Collapse Tracking
+        // 5. Accordion / Collapse Tracking (Aligned with DLV - expandcollapse variable name)
         function toggleAccordion(element, title) {
             const content = element.nextElementSibling;
             const isExpanding = content.style.display !== 'block';
@@ -251,11 +258,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             dataLayer.push({
                 'event': 'accordion_toggle',
                 'accordion_title': title,
-                'accordion_action': isExpanding ? 'expand' : 'collapse'
+                'expandcollapse': isExpanding ? 'expand' : 'collapse'
             });
         }
 
-        // 5. Form Submission Tracking
+        // 6. Form Submission Tracking (Aligned with DLV - interest_value variable name)
         function trackFormSubmit(event) {
             event.preventDefault();
             const interestValue = document.getElementById('interest').value;
@@ -263,7 +270,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             dataLayer.push({
                 'event': 'form_submission',
                 'form_id': 'leadForm',
-                'form_lead_type': interestValue
+                'interest_value': interestValue
             });
             
             alert('Form submitted successfully!');
