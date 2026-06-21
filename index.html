@@ -33,6 +33,11 @@
             margin: 0 auto;
             padding: 1rem;
         }
+        .logo a {
+            text-decoration: none;
+            color: #000000;
+            font-size: 1.25rem;
+        }
         .nav-links a {
             text-decoration: none;
             color: var(--dark);
@@ -51,6 +56,30 @@
             margin-bottom: 2rem;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 3rem 1rem;
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        .hero h1 {
+            margin-top: 0;
+            color: var(--dark);
+        }
+        .btn {
+            display: inline-block;
+            text-decoration: none;
+            background: var(--primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+        }
+        /* E-commerce Grid */
         .products {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -62,15 +91,7 @@
             border-radius: 6px;
             text-align: center;
         }
-        button {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: 500;
-        }
+        /* Accordion */
         .accordion-item {
             border: 1px solid var(--border);
             margin-bottom: 0.5rem;
@@ -88,6 +109,7 @@
             display: none;
             border-top: 1px solid var(--border);
         }
+        /* Form */
         .form-group {
             margin-bottom: 1rem;
         }
@@ -104,44 +126,58 @@
             box-sizing: border-box;
         }
     </style>
+
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+            'page_location': window.location.href,
+            'page_title': document.title
+        });
+    </script>
+
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-KQ82FXD7');</script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-    </script>
-</head>
+    </head>
 <body>
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KQ82FXD7"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <header>
         <nav>
-            <div class="logo" style="cursor:pointer;" onclick="trackLogoClick()"><strong>AnalyticsDemo</strong></div>
+            <div class="logo">
+                <a href="index.html" onclick="trackLogoClick(this)"><strong>AnalyticsDemo</strong></a>
+            </div>
             <div class="nav-links">
-                <a href="#ecommerce" onclick="trackNav('Shop')">Shop</a>
-                <a href="#video" onclick="trackNav('Watch')">Watch</a>
-                <a href="#features" onclick="trackNav('FAQ')">FAQ</a>
-                <a href="#contact" onclick="trackNav('Contact')">Contact</a>
+                <a href="#ecommerce" onclick="trackNav(this, 'Header Navigation')">Shop</a>
+                <a href="#video" onclick="trackNav(this, 'Header Navigation')">Watch</a>
+                <a href="#features" onclick="trackNav(this, 'Header Navigation')">FAQ</a>
+                <a href="#contact" onclick="trackNav(this, 'Header Navigation')">Contact</a>
             </div>
         </nav>
     </header>
 
     <div class="container">
 
+        <section class="hero">
+            <h1>Welcome to the Tracking Sandbox</h1>
+            <p>Test your custom event definitions and parameters in real time.</p>
+            <a href="#ecommerce" id="btn-hero-explore" class="btn btn-hero-main" onclick="trackCtaClick(this, 'Explore Products')">Explore Products</a>
+        </section>
+
         <section id="ecommerce">
             <h2>E-commerce Products</h2>
             <div class="products">
-                <div class="product-card" data-id="p1" data-name="Wireless Headphones" data-price="99.99">
+                <div class="product-card">
                     <h3>Wireless Headphones</h3>
                     <p>$99.99</p>
-                    <button onclick="trackAddToCart('p1', 'Wireless Headphones', 99.99)">Add to Cart</button>
+                    <button class="btn" onclick="trackAddToCart('p1', 'Wireless Headphones', 99.99)">Add to Cart</button>
                 </div>
-                <div class="product-card" data-id="p2" data-name="Smart Watch" data-price="199.99">
+                <div class="product-card">
                     <h3>Smart Watch</h3>
                     <p>$199.99</p>
-                    <button onclick="trackAddToCart('p2', 'Smart Watch', 199.99)">Add to Cart</button>
+                    <button class="btn" onclick="trackAddToCart('p2', 'Smart Watch', 199.99)">Add to Cart</button>
                 </div>
             </div>
         </section>
@@ -159,13 +195,13 @@
             <div class="accordion-item">
                 <div class="accordion-header" onclick="toggleAccordion(this, 'What is dataLayer?')">What is dataLayer?</div>
                 <div class="accordion-content">
-                    <p>The dataLayer is an object used by Google Tag Manager and Adobe Launch to pass information from your website to your analytics tools.</p>
+                    <p>The dataLayer is an object used by Google Tag Manager to cleanly route user behavioral context into tools like GA4.</p>
                 </div>
             </div>
             <div class="accordion-item">
-                <div class="accordion-header" onclick="toggleAccordion(this, 'How does tracking work?')">How does tracking work?</div>
+                <div class="accordion-header" onclick="toggleAccordion(this, 'How does validation work?')">How does validation work?</div>
                 <div class="accordion-content">
-                    <p>JavaScript functions trigger dataLayer.push() events whenever users interact with specific elements on this page.</p>
+                    <p>Using Tag Assistant or your browser's Developer Tools network inspection pane, you can verify exact schema parameter matches.</p>
                 </div>
             </div>
         </section>
@@ -184,97 +220,121 @@
                         <option value="development">Web Development</option>
                     </select>
                 </div>
-                <button type="submit">Submit Details</button>
+                <button type="submit" class="btn">Submit Details</button>
             </form>
         </section>
 
     </div>
 
     <script>
-        // 1. Brand Logo Tracking Function
-        function trackLogoClick() {
-            dataLayer.push({
-                'event': 'logo_click',
-                'gtm.elementText': 'AnalyticsDemo',
-                'gtm.elementUrl': window.location.origin + '/'
-            });
-            window.location.href = '#';
+        // logo_click tracking function
+        if (!window.trackLogoClick) {
+            window.trackLogoClick = function(element) {
+                window.dataLayer.push({
+                    'event': 'logo_click',
+                    'link_text': element.innerText.trim() || 'AnalyticsDemo',
+                    'link_url': element.getAttribute('href')
+                });
+            }
         }
 
-        // 2. Navigation Click Tracking (Aligned to use standard GTM built-in auto-variables)
-        function trackNav(menuName) {
-            dataLayer.push({
-                'event': 'navigation_click',
-                'gtm.elementText': menuName, 
-                'gtm.elementUrl': '#' + menuName.toLowerCase(),
-                'page_section': 'Header Navigation'
-            });
+        // navigation_click tracking function
+        if (!window.trackNav) {
+            window.trackNav = function(element, sectionName) {
+                window.dataLayer.push({
+                    'event': 'navigation_click',
+                    'link_text': element.innerText.trim(),
+                    'page_section': sectionName,
+                    'link_url': element.getAttribute('href')
+                });
+            }
         }
 
-        // 3. E-commerce Add to Cart Tracking (Aligned to use your custom variable configuration mapping)
-        function trackAddToCart(id, name, price) {
-            dataLayer.push({
-                'event': 'add_to_cart',
-                'currency': 'USD',
-                'value': price,
-                'ecommerce': {
+        // cta_click tracking function
+        if (!window.trackCtaClick) {
+            window.trackCtaClick = function(element, ctaText) {
+                window.dataLayer.push({
+                    'event': 'cta_click',
+                    'link_text': ctaText,
+                    'link_classes': element.className,
+                    'link_url': element.getAttribute('href'),
+                    'link_id': element.id || ''
+                });
+            }
+        }
+
+        // add_to_cart tracking function (Standard GA4 + Root values)
+        if (!window.trackAddToCart) {
+            window.trackAddToCart = function(id, name, price) {
+                window.dataLayer.push({
+                    'event': 'add_to_cart',
                     'currency': 'USD',
                     'value': price,
-                    'items': [{
-                        'item_id': id,
-                        'item_name': name,
-                        'price': price,
-                        'quantity': 1
-                    }]
-                }
-            });
-            alert(name + ' added to cart!');
+                    'ecommerce': {
+                        'currency': 'USD',
+                        'value': price,
+                        'items': [{
+                            'item_id': id,
+                            'item_name': name,
+                            'price': price,
+                            'quantity': 1
+                        }]
+                    }
+                });
+                alert(name + ' added to cart!');
+            }
         }
 
-        // 4. Video Tracking (Aligned with custom event trigger name: video_start__video_pause)
-        const video = document.getElementById('demoVideo');
-        video.addEventListener('play', () => {
-            dataLayer.push({
-                'event': 'video_start__video_pause',
-                'video_title': 'For Bigger Blazes',
-                'video_current_time': video.currentTime.toFixed(2)
+        // video_start__video_pause execution tracking
+        const videoElement = document.getElementById('demoVideo');
+        if (videoElement) {
+            videoElement.addEventListener('play', () => {
+                window.dataLayer.push({
+                    'event': 'video_start__video_pause',
+                    'video_title': 'For Bigger Blazes',
+                    'video_current_time': videoElement.currentTime.toFixed(2)
+                });
             });
-        });
-        video.addEventListener('pause', () => {
-            dataLayer.push({
-                'event': 'video_start__video_pause',
-                'video_title': 'For Bigger Blazes',
-                'video_current_time': video.currentTime.toFixed(2)
-            });
-        });
-
-        // 5. Accordion / Collapse Tracking (Aligned with DLV - expandcollapse variable name)
-        function toggleAccordion(element, title) {
-            const content = element.nextElementSibling;
-            const isExpanding = content.style.display !== 'block';
-            
-            content.style.display = isExpanding ? 'block' : 'none';
-            
-            dataLayer.push({
-                'event': 'accordion_toggle',
-                'accordion_title': title,
-                'expandcollapse': isExpanding ? 'expand' : 'collapse'
+            videoElement.addEventListener('pause', () => {
+                window.dataLayer.push({
+                    'event': 'video_start__video_pause',
+                    'video_title': 'For Bigger Blazes',
+                    'video_current_time': videoElement.currentTime.toFixed(2)
+                });
             });
         }
 
-        // 6. Form Submission Tracking (Aligned with DLV - interest_value variable name)
-        function trackFormSubmit(event) {
-            event.preventDefault();
-            const interestValue = document.getElementById('interest').value;
-            
-            dataLayer.push({
-                'event': 'form_submission',
-                'form_id': 'leadForm',
-                'interest_value': interestValue
-            });
-            
-            alert('Form submitted successfully!');
-            document.getElementById('leadForm').reset();
+        // accordion_toggle tracking function
+        if (!window.toggleAccordion) {
+            window.toggleAccordion = function(element, titleText) {
+                const contentBlock = element.nextElementSibling;
+                const isOpening = contentBlock.style.display !== 'block';
+                
+                contentBlock.style.display = isOpening ? 'block' : 'none';
+                
+                window.dataLayer.push({
+                    'event': 'accordion_toggle',
+                    'accordion_title': titleText,
+                    'expandcollapse': isOpening ? 'expand' : 'collapse'
+                });
+            }
+        }
+
+        // form_submission tracking function
+        if (!window.trackFormSubmit) {
+            window.trackFormSubmit = function(event) {
+                event.preventDefault();
+                const selectedInterest = document.getElementById('interest').value;
+                
+                window.dataLayer.push({
+                    'event': 'form_submission',
+                    'form_id': 'leadForm',
+                    'interest_value': selectedInterest
+                });
+                
+                alert('Form successfully captured!');
+                document.getElementById('leadForm').reset();
+            }
         }
     </script>
 </body>
