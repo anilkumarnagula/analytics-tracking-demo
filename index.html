@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Tracking Demo Site</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --border: #e2e8f0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var-dark;
+            background-color: var(--light);
+        }
+        header {
+            background: white;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            margin-left: 1.5rem;
+            font-weight: 500;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        section {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        /* E-commerce Grid */
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        .product-card {
+            border: 1px solid var(--border);
+            padding: 1rem;
+            border-radius: 6px;
+            text-align: center;
+        }
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        /* Accordion */
+        .accordion-item {
+            border: 1px solid var(--border);
+            margin-bottom: 0.5rem;
+            border-radius: 4px;
+        }
+        .accordion-header {
+            background: #f1f5f9;
+            padding: 1rem;
+            cursor: pointer;
+            font-weight: 600;
+            user-select: none;
+        }
+        .accordion-content {
+            padding: 1rem;
+            display: none;
+            border-top: 1px solid var(--border);
+        }
+        /* Form */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        input, select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+    </style>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+    </script>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <div class="logo"><strong>AnalyticsDemo</strong></div>
+            <div class="nav-links">
+                <a href="#ecommerce" onclick="trackNav('E-commerce Section')">Shop</a>
+                <a href="#video" onclick="trackNav('Video Section')">Watch</a>
+                <a href="#features" onclick="trackNav('Features Accordion')">FAQ</a>
+                <a href="#contact" onclick="trackNav('Contact Form')">Contact</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+
+        <section id="ecommerce">
+            <h2>E-commerce Products</h2>
+            <div class="products">
+                <div class="product-card" data-id="p1" data-name="Wireless Headphones" data-price="99.99">
+                    <h3>Wireless Headphones</h3>
+                    <p>$99.99</p>
+                    <button onclick="trackAddToCart('p1', 'Wireless Headphones', 99.99)">Add to Cart</button>
+                </div>
+                <div class="product-card" data-id="p2" data-name="Smart Watch" data-price="199.99">
+                    <h3>Smart Watch</h3>
+                    <p>$199.99</p>
+                    <button onclick="trackAddToCart('p2', 'Smart Watch', 199.99)">Add to Cart</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="video">
+            <h2>Video Player Tracking</h2>
+            <video id="demoVideo" width="100%" controls poster="https://via.placeholder.com/800x450?text=Click+to+Play+Video">
+                <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </section>
+
+        <section id="features">
+            <h2>Expandable Content (Accordion)</h2>
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this, 'What is dataLayer?')">What is dataLayer?</div>
+                <div class="accordion-content">
+                    <p>The dataLayer is an object used by Google Tag Manager and Adobe Launch to pass information from your website to your analytics tools.</p>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this, 'How does tracking work?')">How does tracking work?</div>
+                <div class="accordion-content">
+                    <p>JavaScript functions trigger dataLayer.push() events whenever users interact with specific elements on this page.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2>Lead Generation Form</h2>
+            <form id="leadForm" onsubmit="trackFormSubmit(event)">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="interest">Interested In</label>
+                    <select id="interest">
+                        <option value="analytics">Web Analytics</option>
+                        <option value="development">Web Development</option>
+                    </select>
+                </div>
+                <button type="submit">Submit Details</button>
+            </form>
+        </section>
+
+    </div>
+
+    <script>
+        // 1. Navigation Click Tracking
+        function trackNav(menuName) {
+            dataLayer.push({
+                'event': 'navigation_click',
+                'nav_menu_name': menuName
+            });
+        }
+
+        // 2. E-commerce Add to Cart Tracking (GA4 Schema compliant)
+        function trackAddToCart(id, name, price) {
+            dataLayer.push({
+                'event': 'add_to_cart',
+                'ecommerce': {
+                    'currency': 'USD',
+                    'value': price,
+                    'items': [{
+                        'item_id': id,
+                        'item_name': name,
+                        'price': price,
+                        'quantity': 1
+                    }]
+                }
+            });
+            alert(name + ' added to cart! Check your console/dataLayer.');
+        }
+
+        // 3. Video Tracking (Play, Pause)
+        const video = document.getElementById('demoVideo');
+        video.addEventListener('play', () => {
+            dataLayer.push({
+                'event': 'video_start',
+                'video_title': 'For Bigger Blazes',
+                'video_current_time': video.currentTime
+            });
+        });
+        video.addEventListener('pause', () => {
+            dataLayer.push({
+                'event': 'video_pause',
+                'video_title': 'For Bigger Blazes',
+                'video_current_time': video.currentTime
+            });
+        });
+
+        // 4. Accordion / Collapse Tracking
+        function toggleAccordion(element, title) {
+            const content = element.nextElementSibling;
+            const isExpanding = content.style.display !== 'block';
+            
+            content.style.display = isExpanding ? 'block' : 'none';
+            
+            dataLayer.push({
+                'event': 'accordion_toggle',
+                'accordion_title': title,
+                'accordion_action': isExpanding ? 'expand' : 'collapse'
+            });
+        }
+
+        // 5. Form Submission Tracking
+        function trackFormSubmit(event) {
+            event.preventDefault();
+            const interestValue = document.getElementById('interest').value;
+            
+            dataLayer.push({
+                'event': 'form_submission',
+                'form_id': 'leadForm',
+                'form_lead_type': interestValue
+            });
+            
+            alert('Form submitted successfully!');
+            document.getElementById('leadForm').reset();
+        }
+    </script>
+</body>
+</html>
