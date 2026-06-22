@@ -56,7 +56,6 @@
             margin-bottom: 2rem;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
-        /* Hero Section */
         .hero {
             text-align: center;
             padding: 3rem 1rem;
@@ -67,6 +66,21 @@
         .hero h1 {
             margin-top: 0;
             color: var(--dark);
+        }
+        .cta-showcase-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fdf2e9;
+            border: 2px dashed #f97316;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        .cta-showcase-box p {
+            margin: 0;
+            font-weight: 600;
+            color: #ea580c;
         }
         .btn {
             display: inline-block;
@@ -79,7 +93,9 @@
             cursor: pointer;
             border: none;
         }
-        /* E-commerce Grid */
+        .btn-orange {
+            background: #f97316;
+        }
         .products {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -91,7 +107,6 @@
             border-radius: 6px;
             text-align: center;
         }
-        /* Accordion */
         .accordion-item {
             border: 1px solid var(--border);
             margin-bottom: 0.5rem;
@@ -109,7 +124,6 @@
             display: none;
             border-top: 1px solid var(--border);
         }
-        /* Form */
         .form-group {
             margin-bottom: 1rem;
         }
@@ -163,8 +177,13 @@
         <section class="hero">
             <h1>Welcome to the Tracking Sandbox</h1>
             <p>Test your custom event definitions and parameters in real time.</p>
-            <a href="#ecommerce" id="btn-hero-explore" class="btn btn-hero-main" onclick="trackCtaClick(this, 'Explore Products')">Explore Products</a>
+            <a href="#ecommerce" id="btn-hero-explore" class="btn js-cta-track">Explore Products</a>
         </section>
+
+        <div class="cta-showcase-box">
+            <p>🔥 Limited Time Offer: Get special tracking documentation tips right now!</p>
+            <a href="#contact" id="cta-orange-action" class="btn btn-orange js-cta-track">Claim Free Guide</a>
+        </div>
 
         <section id="ecommerce">
             <h2>E-commerce Products</h2>
@@ -184,7 +203,7 @@
 
         <section id="video">
             <h2>Video Player Tracking</h2>
-            <video id="demoVideo" width="100%" controls poster="https://via.placeholder.com/800x450?text=Click+to+Play+Video">
+            <video id="demoVideo" width="100%" controls>
                 <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
@@ -227,65 +246,68 @@
     </div>
 
     <script>
-        // logo_click tracking function
-        if (!window.trackLogoClick) {
-            window.trackLogoClick = function(element) {
-                window.dataLayer.push({
-                    'event': 'logo_click',
-                    'link_text': element.innerText.trim() || 'AnalyticsDemo',
-                    'link_url': element.getAttribute('href')
+        // 1. Automatic Event Listener for Clean CTAs (Solves your requirement)
+        document.addEventListener('DOMContentLoaded', () => {
+            const ctaElements = document.querySelectorAll('.js-cta-track');
+            
+            ctaElements.forEach(element => {
+                element.addEventListener('click', (event) => {
+                    const textValue = element.innerText.trim();
+                    const classesValue = element.className;
+                    const urlValue = element.getAttribute('href');
+                    const idValue = element.id || '';
+
+                    window.dataLayer.push({
+                        'event': 'cta_click',
+                        'link_text': textValue,
+                        'link_classes': classesValue,
+                        'link_url': urlValue,
+                        'link_id': idValue
+                    });
                 });
-            }
+            });
+        });
+
+        // logo_click tracking function
+        function trackLogoClick(element) {
+            window.dataLayer.push({
+                'event': 'logo_click',
+                'link_text': element.innerText.trim() || 'AnalyticsDemo',
+                'link_url': element.getAttribute('href')
+            });
         }
 
         // navigation_click tracking function
-        if (!window.trackNav) {
-            window.trackNav = function(element, sectionName) {
-                window.dataLayer.push({
-                    'event': 'navigation_click',
-                    'link_text': element.innerText.trim(),
-                    'page_section': sectionName,
-                    'link_url': element.getAttribute('href')
-                });
-            }
+        function trackNav(element, sectionName) {
+            window.dataLayer.push({
+                'event': 'navigation_click',
+                'link_text': element.innerText.trim(),
+                'page_section': sectionName,
+                'link_url': element.getAttribute('href')
+            });
         }
 
-        // cta_click tracking function
-        if (!window.trackCtaClick) {
-            window.trackCtaClick = function(element, ctaText) {
-                window.dataLayer.push({
-                    'event': 'cta_click',
-                    'link_text': ctaText,
-                    'link_classes': element.className,
-                    'link_url': element.getAttribute('href'),
-                    'link_id': element.id || ''
-                });
-            }
-        }
-
-        // add_to_cart tracking function (Standard GA4 + Root values)
-        if (!window.trackAddToCart) {
-            window.trackAddToCart = function(id, name, price) {
-                window.dataLayer.push({
-                    'event': 'add_to_cart',
+        // add_to_cart tracking function
+        function trackAddToCart(id, name, price) {
+            window.dataLayer.push({
+                'event': 'add_to_cart',
+                'currency': 'USD',
+                'value': price,
+                'ecommerce': {
                     'currency': 'USD',
                     'value': price,
-                    'ecommerce': {
-                        'currency': 'USD',
-                        'value': price,
-                        'items': [{
-                            'item_id': id,
-                            'item_name': name,
-                            'price': price,
-                            'quantity': 1
-                        }]
-                    }
-                });
-                alert(name + ' added to cart!');
-            }
+                    'items': [{
+                        'item_id': id,
+                        'item_name': name,
+                        'price': price,
+                        'quantity': 1
+                    }]
+                }
+            });
+            alert(name + ' added to cart!');
         }
 
-        // video_start__video_pause execution tracking
+        // video tracking listeners
         const videoElement = document.getElementById('demoVideo');
         if (videoElement) {
             videoElement.addEventListener('play', () => {
@@ -304,37 +326,33 @@
             });
         }
 
-        // accordion_toggle tracking function
-        if (!window.toggleAccordion) {
-            window.toggleAccordion = function(element, titleText) {
-                const contentBlock = element.nextElementSibling;
-                const isOpening = contentBlock.style.display !== 'block';
-                
-                contentBlock.style.display = isOpening ? 'block' : 'none';
-                
-                window.dataLayer.push({
-                    'event': 'accordion_toggle',
-                    'accordion_title': titleText,
-                    'expandcollapse': isOpening ? 'expand' : 'collapse'
-                });
-            }
+        // accordion toggle tracking function
+        function toggleAccordion(element, titleText) {
+            const contentBlock = element.nextElementSibling;
+            const isOpening = contentBlock.style.display !== 'block';
+            
+            contentBlock.style.display = isOpening ? 'block' : 'none';
+            
+            window.dataLayer.push({
+                'event': 'accordion_toggle',
+                'accordion_title': titleText,
+                'expandcollapse': isOpening ? 'expand' : 'collapse'
+            });
         }
 
-        // form_submission tracking function
-        if (!window.trackFormSubmit) {
-            window.trackFormSubmit = function(event) {
-                event.preventDefault();
-                const selectedInterest = document.getElementById('interest').value;
-                
-                window.dataLayer.push({
-                    'event': 'form_submission',
-                    'form_id': 'leadForm',
-                    'interest_value': selectedInterest
-                });
-                
-                alert('Form successfully captured!');
-                document.getElementById('leadForm').reset();
-            }
+        // form submission tracking function
+        function trackFormSubmit(event) {
+            event.preventDefault();
+            const selectedInterest = document.getElementById('interest').value;
+            
+            window.dataLayer.push({
+                'event': 'form_submission',
+                'form_id': 'leadForm',
+                'interest_value': selectedInterest
+            });
+            
+            alert('Form successfully captured!');
+            document.getElementById('leadForm').reset();
         }
     </script>
 </body>
