@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analytics Tracking Demo Site</title>
+    <title>Analytics Sandbox - Home</title>
     <style>
         :root {
             --primary: #2563eb;
             --dark: #1e293b;
             --light: #f8fafc;
             --border: #e2e8f0;
+            --orange: #f97316;
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -17,6 +18,9 @@
             padding: 0;
             color: var(--dark);
             background-color: var(--light);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
         header {
             background: white;
@@ -43,11 +47,20 @@
             color: var(--dark);
             margin-left: 1.5rem;
             font-weight: 500;
+            cursor: pointer;
         }
         .container {
             max-width: 1200px;
             margin: 2rem auto;
             padding: 0 1rem;
+            flex: 1;
+        }
+        /* Page View Switching system */
+        .page-view {
+            display: none;
+        }
+        .page-view.active-view {
+            display: block;
         }
         section {
             background: white;
@@ -72,7 +85,7 @@
             justify-content: space-between;
             align-items: center;
             background: #fdf2e9;
-            border: 2px dashed #f97316;
+            border: 2px dashed var(--orange);
             padding: 1.5rem;
             border-radius: 8px;
             margin-bottom: 2rem;
@@ -94,11 +107,11 @@
             border: none;
         }
         .btn-orange {
-            background: #f97316;
+            background: var(--orange);
         }
         .products {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 1.5rem;
         }
         .product-card {
@@ -106,6 +119,7 @@
             padding: 1rem;
             border-radius: 6px;
             text-align: center;
+            background: white;
         }
         .accordion-item {
             border: 1px solid var(--border);
@@ -139,6 +153,44 @@
             border-radius: 4px;
             box-sizing: border-box;
         }
+        /* Footer Layout Styles */
+        footer {
+            background: #1e293b;
+            color: #94a3b8;
+            padding: 2rem 1rem;
+            margin-top: auto;
+            border-top: 1px solid #334155;
+        }
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+        .footer-section h4 {
+            color: white;
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+        .footer-section ul {
+            list-items: none;
+            padding: 0;
+            margin: 0;
+        }
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+            list-style: none;
+        }
+        .footer-section ul li a {
+            color: #94a3b8;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .footer-section ul li a:hover {
+            color: white;
+        }
     </style>
 
     <script>
@@ -158,117 +210,200 @@
 <body>
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KQ82FXD7"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
     <header>
         <nav>
             <div class="logo">
-                <a href="index.html" onclick="trackLogoClick(this)"><strong>AnalyticsDemo</strong></a>
+                <a href="#home" onclick="navigateToView('home', 'Home Sandbox Dashboard')"><strong>AnalyticsDemo</strong></a>
             </div>
             <div class="nav-links">
-                <a href="#ecommerce" onclick="trackNav(this, 'Header Navigation')">Shop</a>
-                <a href="#video" onclick="trackNav(this, 'Header Navigation')">Watch</a>
-                <a href="#features" onclick="trackNav(this, 'Header Navigation')">FAQ</a>
-                <a href="#contact" onclick="trackNav(this, 'Header Navigation')">Contact</a>
+                <a onclick="trackHeaderNav(this, 'home', 'Home Sandbox Dashboard')">Home</a>
+                <a onclick="trackHeaderNav(this, 'ecommerce', 'E-commerce Shop Catalog')">Shop</a>
+                <a onclick="trackHeaderNav(this, 'about', 'About Us Corporate Profile')">About Us</a>
+                <a onclick="trackHeaderNav(this, 'contact', 'Contact & Lead Generation')">Contact</a>
             </div>
         </nav>
     </header>
 
     <div class="container">
 
-        <section class="hero">
-            <h1>Welcome to the Tracking Sandbox</h1>
-            <p>Test your custom event definitions and parameters in real time.</p>
-            <a href="#ecommerce" id="btn-hero-explore" class="btn js-cta-track">Explore Products</a>
-        </section>
+        <div id="view-home" class="page-view active-view">
+            <section class="hero">
+                <h1>Welcome to the Tracking Sandbox</h1>
+                <p>Test your custom event definitions and parameters in real time.</p>
+                <a onclick="trackCtaLink(this, 'Explore Products', 'home_hero', 'ecommerce', 'E-commerce Shop Catalog')" class="btn js-cta-track">Explore Products</a>
+            </section>
 
-        <div class="cta-showcase-box">
-            <p>🔥 Limited Time Offer: Get special tracking documentation tips right now!</p>
-            <a href="#contact" id="cta-orange-action" class="btn btn-orange js-cta-track">Claim Free Guide</a>
+            <div class="cta-showcase-box">
+                <p>🔥 Limited Time Offer: Get special tracking documentation tips right now!</p>
+                <a onclick="trackCtaLink(this, 'Claim Free Guide', 'orange_banner', 'contact', 'Contact & Lead Generation')" class="btn btn-orange js-cta-track">Claim Free Guide</a>
+            </div>
+
+            <section id="video">
+                <h2>Video Player Tracking</h2>
+                <video id="demoVideo" width="100%" controls>
+                    <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </section>
+
+            <section id="features">
+                <h2>Expandable Content (Accordion)</h2>
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this, 'What is dataLayer?')">What is dataLayer?</div>
+                    <div class="accordion-content">
+                        <p>The dataLayer is an object used by Google Tag Manager to cleanly route user behavioral context into tools like GA4.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this, 'How does validation work?')">How does validation work?</div>
+                    <div class="accordion-content">
+                        <p>Using Tag Assistant or your browser's Developer Tools network inspection pane, you can verify exact schema parameter matches.</p>
+                    </div>
+                </div>
+            </section>
         </div>
 
-        <section id="ecommerce">
-            <h2>E-commerce Products</h2>
-            <div class="products">
-                <div class="product-card">
-                    <h3>Wireless Headphones</h3>
-                    <p>$99.99</p>
-                    <button class="btn" onclick="trackAddToCart('p1', 'Wireless Headphones', 99.99)">Add to Cart</button>
+        <div id="view-ecommerce" class="page-view">
+            <section>
+                <h2>Expanded E-commerce Catalog</h2>
+                <p>Click items below to test custom e-commerce product schema pushes.</p>
+                <div class="products">
+                    <div class="product-card">
+                        <h3>Wireless Headphones</h3>
+                        <p>$99.99</p>
+                        <button class="btn" onclick="trackAddToCart('p1', 'Wireless Headphones', 99.99)">Add to Cart</button>
+                    </div>
+                    <div class="product-card">
+                        <h3>Smart Watch</h3>
+                        <p>$199.99</p>
+                        <button class="btn" onclick="trackAddToCart('p2', 'Smart Watch', 199.99)">Add to Cart</button>
+                    </div>
+                    <div class="product-card">
+                        <h3>Mechanical Keyboard</h3>
+                        <p>$149.50</p>
+                        <button class="btn" onclick="trackAddToCart('p3', 'Mechanical Keyboard', 149.50)">Add to Cart</button>
+                    </div>
+                    <div class="product-card">
+                        <h3>Ergonomic Mouse</h3>
+                        <p>$79.00</p>
+                        <button class="btn" onclick="trackAddToCart('p4', 'Ergonomic Mouse', 79.00)">Add to Cart</button>
+                    </div>
                 </div>
-                <div class="product-card">
-                    <h3>Smart Watch</h3>
-                    <p>$199.99</p>
-                    <button class="btn" onclick="trackAddToCart('p2', 'Smart Watch', 199.99)">Add to Cart</button>
-                </div>
-            </div>
-        </section>
+            </section>
+        </div>
 
-        <section id="video">
-            <h2>Video Player Tracking</h2>
-            <video id="demoVideo" width="100%" controls>
-                <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </section>
+        <div id="view-about" class="page-view">
+            <section>
+                <h2>About Our Analytics Engine</h2>
+                <p>This sandbox environment serves as a clean room platform designed to test data automation capabilities via simulated interface events.</p>
+                <p>Click an operational documentation path below to verify explicit CTA cross-navigation parameters:</p>
+                <div style="margin-top: 1.5rem;">
+                    <a onclick="trackCtaLink(this, 'Read Specifications Guide', 'about_docs', 'home', 'Home Sandbox Dashboard')" class="btn js-cta-track" style="margin-right: 1rem;">Read Specs Guide</a>
+                    <a onclick="trackCtaLink(this, 'Contact Support Integrations', 'about_support', 'contact', 'Contact & Lead Generation')" class="btn btn-orange js-cta-track">Contact Support</a>
+                </div>
+            </section>
+        </div>
 
-        <section id="features">
-            <h2>Expandable Content (Accordion)</h2>
-            <div class="accordion-item">
-                <div class="accordion-header" onclick="toggleAccordion(this, 'What is dataLayer?')">What is dataLayer?</div>
-                <div class="accordion-content">
-                    <p>The dataLayer is an object used by Google Tag Manager to cleanly route user behavioral context into tools like GA4.</p>
-                </div>
-            </div>
-            <div class="accordion-item">
-                <div class="accordion-header" onclick="toggleAccordion(this, 'How does validation work?')">How does validation work?</div>
-                <div class="accordion-content">
-                    <p>Using Tag Assistant or your browser's Developer Tools network inspection pane, you can verify exact schema parameter matches.</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="contact">
-            <h2>Lead Generation Form</h2>
-            <form id="leadForm" onsubmit="trackFormSubmit(event)">
-                <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" id="name" required>
-                </div>
-                <div class="form-group">
-                    <label for="interest">Interested In</label>
-                    <select id="interest">
-                        <option value="analytics">Web Analytics</option>
-                        <option value="development">Web Development</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn">Submit Details</button>
-            </form>
-        </section>
+        <div id="view-contact" class="page-view">
+            <section>
+                <h2>Lead Generation Form</h2>
+                <form id="leadForm" onsubmit="trackFormSubmit(event)">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="interest">Interested In</label>
+                        <select id="interest">
+                            <option value="analytics">Web Analytics</option>
+                            <option value="development">Web Development</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn">Submit Details</button>
+                </form>
+            </section>
+        </div>
 
     </div>
 
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Platform Navigation</h4>
+                <ul>
+                    <li><a onclick="trackFooterNav(this, 'home', 'Home Sandbox Dashboard')">Go to Dashboard</a></li>
+                    <li><a onclick="trackFooterNav(this, 'ecommerce', 'E-commerce Shop Catalog')">Browse Catalog</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Legal & Privacy</h4>
+                <ul>
+                    <li><a onclick="trackFooterNav(this, 'privacy_policy', 'Privacy Framework Regulations')">Privacy Policy</a></li>
+                    <li><a onclick="trackFooterNav(this, 'terms_of_service', 'Terms of Platform Service')">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
     <script>
-        // 1. Automatic Event Listener for Clean CTAs (Solves your requirement)
-       /* document.addEventListener('DOMContentLoaded', () => {
-            const ctaElements = document.querySelectorAll('.js-cta-track');
-            
-            ctaElements.forEach(element => {
-                element.addEventListener('click', (event) => {
-                    const textValue = element.innerText.trim();
-                    const classesValue = element.className;
-                    const urlValue = element.getAttribute('href');
-                    const idValue = element.id || '';
-
-                    window.dataLayer.push({
-                        'event': 'cta_click',
-                        'link_text': textValue,
-                        'link_classes': classesValue,
-                        'link_url': urlValue,
-                        'link_id': idValue
-                    });
-                });
+        // CORE SINGLE PAGE ROUTER MECHANISM WITH AUTOMATED VIRTUAL PAGE VIEWS
+        function navigateToView(viewId, pageTitle) {
+            // Deactivate current active view panel
+            document.querySelectorAll('.page-view').forEach(view => {
+                view.classList.remove('active-view');
             });
-        });*/
+            
+            // Activate requested target panel element
+            const targetView = document.getElementById('view-' + viewId);
+            if (targetView) {
+                targetView.classList.add('active-view');
+            }
 
-        // logo_click tracking function
+            // Construct clean programmatic virtual address patterns
+            const virtualUrl = window.location.origin + window.location.pathname + '#' + viewId;
+            document.title = "Analytics Sandbox - " + pageTitle;
+
+            // Push fresh schema values to dataLayer matching your requirements
+            window.dataLayer.push({
+                'event': 'page_view',
+                'page_location': virtualUrl,
+                'page_title': document.title
+            });
+            
+            // Scroll safely back to panel crown
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        // Header click link routing interceptor
+        function trackHeaderNav(element, targetView, pageTitle) {
+            window.dataLayer.push({
+                'event': 'navigation_click',
+                'link_text': element.innerText.trim(),
+                'page_section': 'Header Navigation',
+                'link_url': '#' + targetView
+            });
+            navigateToView(targetView, pageTitle);
+        }
+
+        // Footer link routing tracking injection
+        function trackFooterNav(element, destinationAnchor, pageTitle) {
+            window.dataLayer.push({
+                'event': 'navigation_click',
+                'link_text': element.innerText.trim(),
+                'page_section': 'Footer Navigation',
+                'link_url': '#' + destinationAnchor
+            });
+            
+            // If checking internal legal mock placeholders, run router update
+            if(destinationAnchor === 'home' || destinationAnchor === 'ecommerce') {
+                navigateToView(destinationAnchor, pageTitle);
+            } else {
+                navigateToView('home', pageTitle); // Fail-safes back to home dashboard frame
+            }
+        }
+
+        // Brand signature element click trigger
         function trackLogoClick(element) {
             window.dataLayer.push({
                 'event': 'logo_click',
@@ -277,17 +412,19 @@
             });
         }
 
-        // navigation_click tracking function
-        function trackNav(element, sectionName) {
+        // Multi-parameter CTA processing logic
+        function trackCtaLink(element, textLabel, htmlId, destinationView, pageTitle) {
             window.dataLayer.push({
-                'event': 'navigation_click',
-                'link_text': element.innerText.trim(),
-                'page_section': sectionName,
-                'link_url': element.getAttribute('href')
+                'event': 'cta_click',
+                'link_text': textLabel,
+                'link_classes': element.className,
+                'link_url': '#' + destinationView,
+                'link_id': htmlId
             });
+            navigateToView(destinationView, pageTitle);
         }
 
-        // add_to_cart tracking function
+        // E-commerce checkout bucket processing logic
         function trackAddToCart(id, name, price) {
             window.dataLayer.push({
                 'event': 'add_to_cart',
@@ -307,7 +444,7 @@
             alert(name + ' added to cart!');
         }
 
-        // video tracking listeners
+        // Integrated interactive video timeline observers
         const videoElement = document.getElementById('demoVideo');
         if (videoElement) {
             videoElement.addEventListener('play', () => {
@@ -326,7 +463,7 @@
             });
         }
 
-        // accordion toggle tracking function
+        // Accordion visibility engine toggles
         function toggleAccordion(element, titleText) {
             const contentBlock = element.nextElementSibling;
             const isOpening = contentBlock.style.display !== 'block';
@@ -340,7 +477,7 @@
             });
         }
 
-        // form submission tracking function
+        // Dynamic form compliance mapping processing
         function trackFormSubmit(event) {
             event.preventDefault();
             const selectedInterest = document.getElementById('interest').value;
