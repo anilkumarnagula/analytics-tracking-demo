@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analytics Sandbox - Home</title>
+    <title>Analytics Sandbox - Complex Architecture</title>
     <style>
         :root {
             --primary: #2563eb;
@@ -11,6 +11,7 @@
             --light: #f8fafc;
             --border: #e2e8f0;
             --orange: #f97316;
+            --purple: #7c3aed;
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -42,12 +43,53 @@
             color: #000000;
             font-size: 1.25rem;
         }
-        .nav-links a {
+        /* CSS Sub-Navigation / Dropdown Menu Hierarchy */
+        .nav-links {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .nav-item {
+            position: relative;
+            margin-left: 1.5rem;
+        }
+        .nav-item > a {
             text-decoration: none;
             color: var(--dark);
-            margin-left: 1.5rem;
             font-weight: 500;
             cursor: pointer;
+            padding: 0.5rem 0;
+            display: inline-block;
+        }
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            min-width: 180px;
+            padding: 0.5rem 0;
+            list-style: none;
+            margin: 0;
+        }
+        .dropdown li a {
+            display: block;
+            padding: 0.5rem 1rem;
+            color: var(--dark);
+            text-decoration: none;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        .dropdown li a:hover {
+            background: #f1f5f9;
+            color: var(--primary);
+        }
+        .nav-item:hover .dropdown {
+            display: block;
         }
         .container {
             max-width: 1200px;
@@ -55,7 +97,7 @@
             padding: 0 1rem;
             flex: 1;
         }
-        /* Page View Switching system */
+        /* Page View Switcher Display Rules */
         .page-view {
             display: none;
         }
@@ -72,28 +114,21 @@
         .hero {
             text-align: center;
             padding: 3rem 1rem;
-            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
             border-radius: 8px;
             margin-bottom: 2rem;
         }
-        .hero h1 {
-            margin-top: 0;
-            color: var(--dark);
-        }
-        .cta-showcase-box {
+        .hero-blue { background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); }
+        .hero-orange { background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%); }
+        .hero-purple { background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%); }
+        
+        .cta-box {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: #fdf2e9;
-            border: 2px dashed var(--orange);
             padding: 1.5rem;
             border-radius: 8px;
             margin-bottom: 2rem;
-        }
-        .cta-showcase-box p {
-            margin: 0;
-            font-weight: 600;
-            color: #ea580c;
+            border: 2px dashed var(--border);
         }
         .btn {
             display: inline-block;
@@ -106,9 +141,9 @@
             cursor: pointer;
             border: none;
         }
-        .btn-orange {
-            background: var(--orange);
-        }
+        .btn-orange { background: var(--orange); }
+        .btn-purple { background: var(--purple); }
+        
         .products {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -121,76 +156,18 @@
             text-align: center;
             background: white;
         }
-        .accordion-item {
-            border: 1px solid var(--border);
-            margin-bottom: 0.5rem;
-            border-radius: 4px;
+        .form-group { margin-bottom: 1rem; }
+        label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
+        input, select, textarea {
+            width: 100%; padding: 0.5rem; border: 1px solid var(--border);
+            border-radius: 4px; box-sizing: border-box;
         }
-        .accordion-header {
-            background: #f1f5f9;
-            padding: 1rem;
-            cursor: pointer;
-            font-weight: 600;
-            user-select: none;
-        }
-        .accordion-content {
-            padding: 1rem;
-            display: none;
-            border-top: 1px solid var(--border);
-        }
-        .form-group {
-            margin-bottom: 1rem;
-        }
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-        input, select {
-            width: 100%;
-            padding: 0.5rem;
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        /* Footer Layout Styles */
-        footer {
-            background: #1e293b;
-            color: #94a3b8;
-            padding: 2rem 1rem;
-            margin-top: auto;
-            border-top: 1px solid #334155;
-        }
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-        }
-        .footer-section h4 {
-            color: white;
-            margin-top: 0;
-            margin-bottom: 1rem;
-        }
-        .footer-section ul {
-            list-items: none;
-            padding: 0;
-            margin: 0;
-        }
-        .footer-section ul li {
-            margin-bottom: 0.5rem;
-            list-style: none;
-        }
-        .footer-section ul li a {
-            color: #94a3b8;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        .footer-section ul li a:hover {
-            color: white;
-        }
+        footer { background: #1e293b; color: #94a3b8; padding: 2rem 1rem; border-top: 1px solid #334155; }
+        .footer-content { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; }
+        .footer-section h4 { color: white; margin-top: 0; }
+        .footer-section ul { list-style: none; padding: 0; }
+        .footer-section ul li { margin-bottom: 0.5rem; }
+        .footer-section ul li a { color: #94a3b8; text-decoration: none; cursor: pointer; }
     </style>
 
     <script>
@@ -208,66 +185,58 @@
     })(window,document,'script','dataLayer','GTM-KQ82FXD7');</script>
     </head>
 <body>
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KQ82FXD7"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KQ82FXD7" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <header>
         <nav>
             <div class="logo">
-                <a href="#home" onclick="navigateToView('home', 'Home Sandbox Dashboard')"><strong>AnalyticsDemo</strong></a>
+                <a href="#home" onclick="navigateToView('home', 'Core Dashboard Sandbox')"><strong>AnalyticsDemo</strong></a>
             </div>
-            <div class="nav-links">
-                <a onclick="trackHeaderNav(this, 'home', 'Home Sandbox Dashboard')">Home</a>
-                <a onclick="trackHeaderNav(this, 'ecommerce', 'E-commerce Shop Catalog')">Shop</a>
-                <a onclick="trackHeaderNav(this, 'about', 'About Us Corporate Profile')">About Us</a>
-                <a onclick="trackHeaderNav(this, 'contact', 'Contact & Lead Generation')">Contact</a>
-            </div>
+            <ul class="nav-links">
+                <li class="nav-item">
+                    <a onclick="trackNavClick(this, 'Header Navigation', '#home')">Home Hub</a>
+                </li>
+                <li class="nav-item">
+                    <a>Products Catalog ▾</a>
+                    <ul class="dropdown">
+                        <li><a onclick="trackSubNavClick(this, 'Products Dropdown', 'audio_gear', 'Audio Gear Production Marketplace')">Audio Gear</a></li>
+                        <li><a onclick="trackSubNavClick(this, 'Products Dropdown', 'smart_tech', 'Smart Wearables Marketplace')">Smart Wearables</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a>Services & Help ▾</a>
+                    <ul class="dropdown">
+                        <li><a onclick="trackSubNavClick(this, 'Services Dropdown', 'consulting', 'Enterprise Analytics Consulting')">Consulting Form</a></li>
+                        <li><a onclick="trackSubNavClick(this, 'Services Dropdown', 'faq_support', 'Knowledge Base FAQ Accordion')">Self Help FAQ</a></li>
+                    </ul>
+                </li>
+            </ul>
         </nav>
     </header>
 
     <div class="container">
 
         <div id="view-home" class="page-view active-view">
-            <section class="hero">
-                <h1>Welcome to the Tracking Sandbox</h1>
-                <p>Test your custom event definitions and parameters in real time.</p>
-                <a onclick="trackCtaLink(this, 'Explore Products', 'home_hero', 'ecommerce', 'E-commerce Shop Catalog')" class="btn js-cta-track">Explore Products</a>
+            <section class="hero hero-blue">
+                <h1>Core Dashboard Sandbox</h1>
+                <p>Welcome! Expand the dropdown links above to test sub-navigation hierarchies.</p>
+                <a onclick="trackCtaClick(this, 'Begin General Audit', 'btn_home_audit', '#audio_gear', 'audio_gear', 'Audio Gear Production Marketplace')" class="btn">Begin General Audit</a>
             </section>
-
-            <div class="cta-showcase-box">
-                <p>🔥 Limited Time Offer: Get special tracking documentation tips right now!</p>
-                <a onclick="trackCtaLink(this, 'Claim Free Guide', 'orange_banner', 'contact', 'Contact & Lead Generation')" class="btn btn-orange js-cta-track">Claim Free Guide</a>
+            <div class="cta-box" style="background: #eff6ff;">
+                <p>💡 Quick Tip: Sub-navigation clicks push specific dataLayer parameter paths.</p>
+                <a onclick="trackCtaClick(this, 'Review Documentation', 'btn_home_docs', '#faq_support', 'faq_support', 'Knowledge Base FAQ Accordion')" class="btn btn-purple">Review Docs</a>
             </div>
-
-            <section id="video">
-                <h2>Video Player Tracking</h2>
-                <video id="demoVideo" width="100%" controls>
-                    <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-            </section>
-
-            <section id="features">
-                <h2>Expandable Content (Accordion)</h2>
-                <div class="accordion-item">
-                    <div class="accordion-header" onclick="toggleAccordion(this, 'What is dataLayer?')">What is dataLayer?</div>
-                    <div class="accordion-content">
-                        <p>The dataLayer is an object used by Google Tag Manager to cleanly route user behavioral context into tools like GA4.</p>
-                    </div>
-                </div>
-                <div class="accordion-item">
-                    <div class="accordion-header" onclick="toggleAccordion(this, 'How does validation work?')">How does validation work?</div>
-                    <div class="accordion-content">
-                        <p>Using Tag Assistant or your browser's Developer Tools network inspection pane, you can verify exact schema parameter matches.</p>
-                    </div>
-                </div>
-            </section>
         </div>
 
-        <div id="view-ecommerce" class="page-view">
+        <div id="view-audio_gear" class="page-view">
+            <section class="hero hero-orange">
+                <h1>Audio Gear Production</h1>
+                <p>Premium acoustic solutions for tracking professionals.</p>
+                <button id="btn_audio_promo" class="btn btn-orange" onclick="trackCtaClick(this, 'Unlock Audio Discount', 'btn_audio_promo', '#', 'audio_gear', 'Audio Gear Production Marketplace')">Get 20% Off Audio</button>
+            </section>
+            
             <section>
-                <h2>Expanded E-commerce Catalog</h2>
-                <p>Click items below to test custom e-commerce product schema pushes.</p>
+                <h2>Featured Audio Equipment</h2>
                 <div class="products">
                     <div class="product-card">
                         <h3>Wireless Headphones</h3>
@@ -275,53 +244,88 @@
                         <button class="btn" onclick="trackAddToCart('p1', 'Wireless Headphones', 99.99)">Add to Cart</button>
                     </div>
                     <div class="product-card">
+                        <h3>Studio Microphone</h3>
+                        <p>$249.00</p>
+                        <button class="btn" onclick="trackAddToCart('p5', 'Studio Microphone', 249.00)">Add to Cart</button>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Audio Product Overview Video</h2>
+                <video id="audioVideo" width="100%" controls>
+                    <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
+                </video>
+            </section>
+        </div>
+
+        <div id="view-smart_tech" class="page-view">
+            <section class="hero hero-purple">
+                <h1>Smart Wearables</h1>
+                <p>Track your physical metrics seamlessly across devices.</p>
+                <a onclick="trackCtaClick(this, 'Compare Wearable Models', 'btn_tech_compare', '#', 'smart_tech', 'Smart Wearables Marketplace')" class="btn btn-purple">Compare Models</a>
+            </section>
+
+            <section>
+                <h2>Smart Device Directory</h2>
+                <div class="products">
+                    <div class="product-card">
                         <h3>Smart Watch</h3>
                         <p>$199.99</p>
                         <button class="btn" onclick="trackAddToCart('p2', 'Smart Watch', 199.99)">Add to Cart</button>
                     </div>
                     <div class="product-card">
-                        <h3>Mechanical Keyboard</h3>
-                        <p>$149.50</p>
-                        <button class="btn" onclick="trackAddToCart('p3', 'Mechanical Keyboard', 149.50)">Add to Cart</button>
-                    </div>
-                    <div class="product-card">
-                        <h3>Ergonomic Mouse</h3>
-                        <p>$79.00</p>
-                        <button class="btn" onclick="trackAddToCart('p4', 'Ergonomic Mouse', 79.00)">Add to Cart</button>
+                        <h3>Fitness Tracker Smart Band</h3>
+                        <p>$49.99</p>
+                        <button class="btn" onclick="trackAddToCart('p6', 'Fitness Tracker', 49.99)">Add to Cart</button>
                     </div>
                 </div>
             </section>
-        </div>
 
-        <div id="view-about" class="page-view">
             <section>
-                <h2>About Our Analytics Engine</h2>
-                <p>This sandbox environment serves as a clean room platform designed to test data automation capabilities via simulated interface events.</p>
-                <p>Click an operational documentation path below to verify explicit CTA cross-navigation parameters:</p>
-                <div style="margin-top: 1.5rem;">
-                    <a onclick="trackCtaLink(this, 'Read Specifications Guide', 'about_docs', 'home', 'Home Sandbox Dashboard')" class="btn js-cta-track" style="margin-right: 1rem;">Read Specs Guide</a>
-                    <a onclick="trackCtaLink(this, 'Contact Support Integrations', 'about_support', 'contact', 'Contact & Lead Generation')" class="btn btn-orange js-cta-track">Contact Support</a>
-                </div>
+                <h2>Wearables Commercial Highlight</h2>
+                <video id="wearablesVideo" width="100%" controls>
+                    <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4" type="video/mp4">
+                </video>
             </section>
         </div>
 
-        <div id="view-contact" class="page-view">
+        <div id="view-consulting" class="page-view">
             <section>
-                <h2>Lead Generation Form</h2>
-                <form id="leadForm" onsubmit="trackFormSubmit(event)">
+                <h2>Enterprise Analytics Consulting</h2>
+                <p>Submit your system criteria below for an automated strategy audit framework review.</p>
+                <form id="consultingForm" onsubmit="trackFormSubmit(event, 'consultingForm', 'select_consulting_tier')">
                     <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" id="name" required>
+                        <label for="c_name">Company Name</label>
+                        <input type="text" id="c_name" required>
                     </div>
                     <div class="form-group">
-                        <label for="interest">Interested In</label>
-                        <select id="interest">
-                            <option value="analytics">Web Analytics</option>
-                            <option value="development">Web Development</option>
+                        <label for="select_consulting_tier">Consulting Scope Profile</label>
+                        <select id="select_consulting_tier">
+                            <option value="basic_audit">Standard Tag Auditing</option>
+                            <option value="enterprise_governance">Enterprise Data Governance</option>
                         </select>
                     </div>
-                    <button type="submit" class="btn">Submit Details</button>
+                    <button type="submit" class="btn">Request Consultation</button>
                 </form>
+            </section>
+        </div>
+
+        <div id="view-faq_support" class="page-view">
+            <section>
+                <h2>Knowledge Base FAQ</h2>
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this, 'How do custom sub-navigation paths evaluate?')">How do custom sub-navigation paths evaluate?</div>
+                    <div class="accordion-content">
+                        <p>Sub-navigation actions pass dedicated descriptive interaction names to preserve layout categorization context mapping models.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this, 'Does each video track independently?')">Does each video track independently?</div>
+                    <div class="accordion-content">
+                        <p>Yes, individual event configurations fetch different targeted titles depending on which view player triggers playback layers.</p>
+                    </div>
+                </div>
             </section>
         </div>
 
@@ -330,101 +334,69 @@
     <footer>
         <div class="footer-content">
             <div class="footer-section">
-                <h4>Platform Navigation</h4>
-                <ul>
-                    <li><a onclick="trackFooterNav(this, 'home', 'Home Sandbox Dashboard')">Go to Dashboard</a></li>
-                    <li><a onclick="trackFooterNav(this, 'ecommerce', 'E-commerce Shop Catalog')">Browse Catalog</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Legal & Privacy</h4>
-                <ul>
-                    <li><a onclick="trackFooterNav(this, 'privacy_policy', 'Privacy Framework Regulations')">Privacy Policy</a></li>
-                    <li><a onclick="trackFooterNav(this, 'terms_of_service', 'Terms of Platform Service')">Terms of Service</a></li>
-                </ul>
+                <h4>Platform Engine Framework</h4>
+                <p style="font-size: 0.85rem;">Tag Auditor Pro Sandbox System Context Platform Layer.</p>
             </div>
         </div>
     </footer>
 
     <script>
-        // CORE SINGLE PAGE ROUTER MECHANISM WITH AUTOMATED VIRTUAL PAGE VIEWS
+        // CLIENT VIEW ROUTER & SPEC-COMPLIANT VIRTUAL PAGE-VIEW TRIGGER
         function navigateToView(viewId, pageTitle) {
-            // Deactivate current active view panel
             document.querySelectorAll('.page-view').forEach(view => {
                 view.classList.remove('active-view');
             });
-            
-            // Activate requested target panel element
             const targetView = document.getElementById('view-' + viewId);
             if (targetView) {
                 targetView.classList.add('active-view');
             }
 
-            // Construct clean programmatic virtual address patterns
             const virtualUrl = window.location.origin + window.location.pathname + '#' + viewId;
             document.title = "Analytics Sandbox - " + pageTitle;
 
-            // Push fresh schema values to dataLayer matching your requirements
             window.dataLayer.push({
                 'event': 'page_view',
                 'page_location': virtualUrl,
                 'page_title': document.title
             });
-            
-            // Scroll safely back to panel crown
             window.scrollTo({top: 0, behavior: 'smooth'});
         }
 
-        // Header click link routing interceptor
-        function trackHeaderNav(element, targetView, pageTitle) {
+        // Parent Top-Level Navigation Clicks
+        function trackNavClick(element, sectionLabel, destinationUrl) {
             window.dataLayer.push({
                 'event': 'navigation_click',
                 'link_text': element.innerText.trim(),
-                'page_section': 'Header Navigation',
+                'page_section': sectionLabel,
+                'link_url': destinationUrl
+            });
+            if(destinationUrl === '#home') navigateToView('home', 'Core Dashboard Sandbox');
+        }
+
+        // Dropdown Child Nested Sub-Navigation Clicks
+        function trackSubNavClick(element, sectionLabel, targetView, pageTitle) {
+            window.dataLayer.push({
+                'event': 'navigation_click',
+                'link_text': element.innerText.trim(),
+                'page_section': sectionLabel,
                 'link_url': '#' + targetView
             });
             navigateToView(targetView, pageTitle);
         }
 
-        // Footer link routing tracking injection
-        function trackFooterNav(element, destinationAnchor, pageTitle) {
-            window.dataLayer.push({
-                'event': 'navigation_click',
-                'link_text': element.innerText.trim(),
-                'page_section': 'Footer Navigation',
-                'link_url': '#' + destinationAnchor
-            });
-            
-            // If checking internal legal mock placeholders, run router update
-            if(destinationAnchor === 'home' || destinationAnchor === 'ecommerce') {
-                navigateToView(destinationAnchor, pageTitle);
-            } else {
-                navigateToView('home', pageTitle); // Fail-safes back to home dashboard frame
-            }
-        }
-
-        // Brand signature element click trigger
-        function trackLogoClick(element) {
-            window.dataLayer.push({
-                'event': 'logo_click',
-                'link_text': element.innerText.trim() || 'AnalyticsDemo',
-                'link_url': element.getAttribute('href')
-            });
-        }
-
-        // Multi-parameter CTA processing logic
-        function trackCtaLink(element, textLabel, htmlId, destinationView, pageTitle) {
+        // Targeted Conversion Call-To-Action Clicks
+        function trackCtaClick(element, textLabel, htmlId, fallbackUrl, targetView, pageTitle) {
             window.dataLayer.push({
                 'event': 'cta_click',
                 'link_text': textLabel,
                 'link_classes': element.className,
-                'link_url': '#' + destinationView,
+                'link_url': targetView !== '#' ? '#' + targetView : fallbackUrl,
                 'link_id': htmlId
             });
-            navigateToView(destinationView, pageTitle);
+            if(targetView !== '#') navigateToView(targetView, pageTitle);
         }
 
-        // E-commerce checkout bucket processing logic
+        // E-Commerce Product Basket Event Additions
         function trackAddToCart(id, name, price) {
             window.dataLayer.push({
                 'event': 'add_to_cart',
@@ -444,30 +416,33 @@
             alert(name + ' added to cart!');
         }
 
-        // Integrated interactive video timeline observers
-        const videoElement = document.getElementById('demoVideo');
-        if (videoElement) {
-            videoElement.addEventListener('play', () => {
-                window.dataLayer.push({
-                    'event': 'video_start__video_pause',
-                    'video_title': 'For Bigger Blazes',
-                    'video_current_time': videoElement.currentTime.toFixed(2)
+        // REGISTRATION SYSTEM FOR INDEPENDENTLY TITLED MEDIA ELEMENTS
+        function bindVideoTracking(videoElementId, trackingVideoTitle) {
+            const vid = document.getElementById(videoElementId);
+            if (vid) {
+                vid.addEventListener('play', () => {
+                    window.dataLayer.push({
+                        'event': 'video_start__video_pause',
+                        'video_title': trackingVideoTitle,
+                        'video_current_time': vid.currentTime.toFixed(2)
+                    });
                 });
-            });
-            videoElement.addEventListener('pause', () => {
-                window.dataLayer.push({
-                    'event': 'video_start__video_pause',
-                    'video_title': 'For Bigger Blazes',
-                    'video_current_time': videoElement.currentTime.toFixed(2)
+                vid.addEventListener('pause', () => {
+                    window.dataLayer.push({
+                        'event': 'video_start__video_pause',
+                        'video_title': trackingVideoTitle,
+                        'video_current_time': vid.currentTime.toFixed(2)
+                    });
                 });
-            });
+            }
         }
+        bindVideoTracking('audioVideo', 'Audio Gear Product Guide Overview');
+        bindVideoTracking('wearablesVideo', 'Wearables Product Launch Featurette');
 
-        // Accordion visibility engine toggles
+        // Accordion Framework Actions
         function toggleAccordion(element, titleText) {
             const contentBlock = element.nextElementSibling;
             const isOpening = contentBlock.style.display !== 'block';
-            
             contentBlock.style.display = isOpening ? 'block' : 'none';
             
             window.dataLayer.push({
@@ -477,19 +452,19 @@
             });
         }
 
-        // Dynamic form compliance mapping processing
-        function trackFormSubmit(event) {
+        // Isolated Parameter Value Form Extractor
+        function trackFormSubmit(event, formDomId, dataInputElementId) {
             event.preventDefault();
-            const selectedInterest = document.getElementById('interest').value;
+            const extractedSelectionValue = document.getElementById(dataInputElementId).value;
             
             window.dataLayer.push({
                 'event': 'form_submission',
-                'form_id': 'leadForm',
-                'interest_value': selectedInterest
+                'form_id': formDomId,
+                'interest_value': extractedSelectionValue
             });
             
-            alert('Form successfully captured!');
-            document.getElementById('leadForm').reset();
+            alert('Selection payload submitted completely!');
+            document.getElementById(formDomId).reset();
         }
     </script>
 </body>
