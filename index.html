@@ -3,90 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analytics Sandbox - 11-Page Complex Directory</title>
+    <title>Analytics Sandbox - Home</title>
     <style>
-        :root {
-            --primary: #2563eb;
-            --dark: #1e293b;
-            --light: #f8fafc;
-            --border: #e2e8f0;
-            --orange: #f97316;
-            --purple: #7c3aed;
-            --success: #16a34a;
-        }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            margin: 0; padding: 0;
-            color: var(--dark); background-color: var(--light);
-            display: flex; flex-direction: column; min-height: 100vh;
-        }
-        header {
-            background: white; border-bottom: 1px solid var(--border);
-            position: sticky; top: 0; z-index: 100;
-        }
-        nav {
-            display: flex; justify-content: space-between; align-items: center;
-            max-width: 1200px; margin: 0 auto; padding: 1rem;
-        }
-        .logo a { text-decoration: none; color: #000000; font-size: 1.25rem; }
+        :root { --primary: #2563eb; --dark: #1e293b; --light: #f8fafc; --border: #e2e8f0; --orange: #f97316; --purple: #7c3aed; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 0; color: var(--dark); background-color: var(--light); display: flex; flex-direction: column; min-height: 100vh; }
+        header { background: white; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+        nav { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 1rem; }
+        .logo a { text-decoration: none; color: #000000; font-size: 1.25rem; font-weight: bold; }
         .nav-links { display: flex; list-style: none; margin: 0; padding: 0; }
-        .nav-item { position: relative; margin-left: 1.5rem; }
-        .nav-item > a {
-            text-decoration: none; color: var(--dark); font-weight: 500;
-            cursor: pointer; padding: 0.5rem 0; display: inline-block;
-        }
-        /* Dropdown Hierarchies for Crawler Parsing */
-        .dropdown {
-            display: none; position: absolute; top: 100%; left: 0;
-            background: white; border: 1px solid var(--border);
-            border-radius: 6px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-            min-width: 200px; padding: 0.5rem 0; list-style: none; margin: 0;
-        }
-        .dropdown li a {
-            display: block; padding: 0.5rem 1rem; color: var(--dark);
-            text-decoration: none; font-size: 0.9rem; cursor: pointer;
-        }
-        .dropdown li a:hover { background: #f1f5f9; color: var(--primary); }
-        .nav-item:hover .dropdown { display: block; }
-        
+        .nav-item { margin-left: 1.5rem; }
+        .nav-item a { text-decoration: none; color: var(--dark); font-weight: 500; padding: 0.5rem 0; }
+        .nav-item a.active { color: var(--primary); font-weight: 700; }
         .container { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; flex: 1; }
-        .page-view { display: none; }
-        .page-view.active-view { display: block; }
-        section {
-            background: white; padding: 2rem; border-radius: 8px;
-            margin-bottom: 2rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-        .hero { text-align: center; padding: 3rem 1rem; border-radius: 8px; margin-bottom: 2rem; }
-        .hero-blue { background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); }
-        .hero-orange { background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%); }
-        .hero-purple { background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%); }
-        
-        .btn {
-            display: inline-block; text-decoration: none; background: var(--primary);
-            color: white; padding: 0.75rem 1.5rem; border-radius: 6px;
-            font-weight: 600; cursor: pointer; border: none; font-size: 1rem;
-        }
-        .btn-orange { background: var(--orange); }
-        .btn-purple { background: var(--purple); }
-        .btn-success { background: var(--success); }
-        
-        .products { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; }
-        .product-card { border: 1px solid var(--border); padding: 1rem; border-radius: 6px; text-align: center; background: white; }
-        .form-group { margin-bottom: 1rem; }
-        label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
-        input, select, textarea { width: 100%; padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px; box-sizing: border-box; }
-        .cart-summary-box { background: #f1f5f9; border: 1px solid var(--border); padding: 1rem; border-radius: 6px; margin-bottom: 1.5rem; }
-        .cart-item-row { display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px dashed var(--border); }
-        
-        footer { background: #1e293b; color: #94a3b8; padding: 3rem 1rem; margin-top: auto; border-top: 1px solid #334155; }
-        .footer-content { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 2rem; }
-        .footer-section h4 { color: white; margin-top: 0; margin-bottom: 1rem; }
-        .footer-section ul { list-style: none; padding: 0; margin: 0; }
-        .footer-section ul li { margin-bottom: 0.5rem; }
-        .footer-section ul li a { color: #94a3b8; text-decoration: none; cursor: pointer; }
-        .footer-section ul li a:hover { color: white; }
+        section { background: white; padding: 2rem; border-radius: 8px; margin-bottom: 2rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .hero { text-align: center; padding: 3rem 1rem; border-radius: 8px; margin-bottom: 2rem; background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); }
+        .btn { display: inline-block; text-decoration: none; background: var(--primary); color: white; padding: 0.75rem 1.5rem; border-radius: 6px; font-weight: 600; }
+        footer { background: #1e293b; color: #94a3b8; padding: 2rem 1rem; margin-top: auto; text-align: center; }
     </style>
-
     <script>
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({
@@ -94,385 +27,39 @@
             'page_title': document.title
         });
     </script>
-
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-KQ82FXD7');</script>
-    <!-- End Google Tag Manager -->
 </head>
 <body>
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KQ82FXD7" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
-    <!-- DYNAMIC NESTED Dropdown HEADER -->
     <header>
-    <nav>
-        <div class="logo">
-            <a href="#home" onclick="trackNavClick(this, 'Header Logo', 'home', 'Core Dashboard Sandbox')">
-                <strong>AnalyticsDemo</strong>
-            </a>
-        </div>
-        <ul class="nav-links">
-            <li class="nav-item">
-                <a href="#home" onclick="trackNavClick(this, 'Header Menu', 'home', 'Core Dashboard Sandbox')">Home</a>
-            </li>
-            <li class="nav-item">
-                <a>E-Commerce ▾</a>
-                <ul class="dropdown">
-                    <li>
-                        <a href="#shop" onclick="trackSubNavClick(this, 'Shop Dropdown', 'shop', 'Hardware Marketplace Storefront')">Shop Products (View Item)</a>
-                    </li>
-                    <li>
-                        <a href="#cart" onclick="trackSubNavClick(this, 'Shop Dropdown', 'cart', 'Your Shopping Cart Review')">View Cart Stage</a>
-                    </li>
-                </ul>
-            </li>
-            <li class="nav-item">
-                <a>Company & Hub ▾</a>
-                <ul class="dropdown">
-                    <li>
-                        <a href="#about" onclick="trackSubNavClick(this, 'Company Dropdown', 'about', 'About Us Corporate Profile')">About Corporate</a>
-                    </li>
-                    <li>
-                        <a href="#careers" onclick="trackSubNavClick(this, 'Company Dropdown', 'careers', 'Careers and Opportunities')">Careers Openings</a>
-                    </li>
-                    <li>
-                        <a href="#media_hub" onclick="trackSubNavClick(this, 'Company Dropdown', 'media_hub', 'Video and Media Hub')">Media Stream Hub</a>
-                    </li>
-                </ul>
-            </li>
-            <li class="nav-item">
-                <a>Inquiries ▾</a>
-                <ul class="dropdown">
-                    <li>
-                        <a href="#consulting" onclick="trackSubNavClick(this, 'Inquiry Dropdown', 'consulting', 'Enterprise Analytics Consulting')">Consulting Services</a>
-                    </li>
-                    <li>
-                        <a href="#newsletter" onclick="trackSubNavClick(this, 'Inquiry Dropdown', 'newsletter', 'Newsletter Registration Panel')">Newsletter Signup</a>
-                    </li>
-                    <li>
-                        <a href="#contact" onclick="trackSubNavClick(this, 'Inquiry Dropdown', 'contact', 'General Help & Support Form')">Contact Support</a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-    </nav>
-</header>
+        <nav>
+            <div class="logo"><a href="index.html">AnalyticsDemo</a></div>
+            <ul class="nav-links">
+                <li class="nav-item"><a href="index.html" class="active">Home</a></li>
+                <li class="nav-item"><a href="shop.html">Shop</a></li>
+                <li class="nav-item"><a href="about.html">About</a></li>
+                <li class="nav-item"><a href="media.html">Media Hub</a></li>
+                <li class="nav-item"><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
 
     <div class="container">
-
-        <!-- PAGE 1: HOME HUB -->
-        <div id="view-home" class="page-view active-view">
-            <section class="hero hero-blue">
-                <h1>Analytics Deep Matrix Sandbox</h1>
-                <p>An enterprise-scale 11-page environment designed to test data automation engines and web crawler routing plans.</p>
-                <button class="btn" onclick="trackCtaClick(this, 'Explore Storefront Market', 'btn_home_shop', 'shop', 'Hardware Marketplace Storefront')">Explore Storefront</button>
-            </section>
-        </div>
-
-        <!-- PAGE 2: SHOP (VIEW_ITEM & ADD_TO_CART LIFECYCLE) -->
-        <div id="view-shop" class="page-view">
-            <section class="hero hero-orange">
-                <h1>Hardware Marketplace Storefront</h1>
-                <p>Click components to initiate standardized conversion telemetry pipelines.</p>
-            </section>
-            <section>
-                <h2>Available Inventory</h2>
-                <div class="products">
-                    <div class="product-card">
-                        <h3>Wireless Headphones</h3>
-                        <p>$99.99</p>
-                        <button class="btn btn-orange" onclick="addItemToCart('p1', 'Wireless Headphones', 99.99, 'Audio Hardware')">Add to Cart</button>
-                    </div>
-                    <div class="product-card">
-                        <h3>Smart Watch</h3>
-                        <p>$199.99</p>
-                        <button class="btn btn-orange" onclick="addItemToCart('p2', 'Smart Watch', 199.99, 'Wearable Systems')">Add to Cart</button>
-                    </div>
-                </div>
-            </section>
-        </div>
-
-        <!-- PAGE 3: VIEW_CART STAGE -->
-        <div id="view-cart" class="page-view">
-            <section>
-                <h2>Your Shopping Cart Review</h2>
-                <div id="cart-items-container" class="cart-summary-box"></div>
-                <div style="text-align: right;">
-                    <h3 id="cart-total-display">Total Value: $0.00</h3>
-                    <button class="btn btn-purple" onclick="proceedToCheckoutPhase()">Proceed to Checkout</button>
-                </div>
-            </section>
-        </div>
-
-        <!-- PAGE 4: BEGIN_CHECKOUT FORM -->
-        <div id="view-checkout" class="page-view">
-            <section>
-                <h2>Checkout Processing & Fulfillment</h2>
-                <div class="cart-summary-box"><div id="checkout-summary-breakdown"></div></div>
-                <form id="purchaseReceiptForm" onsubmit="executePurchaseConfirmation(event)">
-                    <div class="form-group">
-                        <label for="user_email">Delivery Email Address</label>
-                        <input type="email" id="user_email" required placeholder="tester@crawler.io">
-                    </div>
-                    <button type="submit" class="btn btn-success">Complete Order Purchase</button>
-                </form>
-            </section>
-        </div>
-
-        <!-- PAGE 5: PURCHASE SUCCESS TRANSACTION -->
-        <div id="view-success" class="page-view">
-            <section style="text-align: center; padding: 2rem;">
-                <div style="font-size: 3rem; color: var(--success);">✓</div>
-                <h2>Order Confirmed!</h2>
-                <p id="tx-receipt-id" style="font-weight: 700; color: #475569;"></p>
-                <button class="btn" onclick="resetFunnelState()">Return to Home</button>
-            </section>
-        </div>
-
-        <!-- PAGE 6: ABOUT US -->
-        <div id="view-about" class="page-view">
-            <section>
-                <h2>About Corporate Profile</h2>
-                <p>This application isolates interaction nodes to verify data dictionary conformance maps.</p>
-                <button class="btn btn-purple" onclick="trackCtaClick(this, 'View Open Jobs', 'btn_about_jobs', 'careers', 'Careers and Opportunities')">View Open Positions</button>
-            </section>
-        </div>
-
-        <!-- PAGE 7: CAREERS -->
-        <div id="view-careers" class="page-view">
-            <section class="hero hero-purple">
-                <h1>Work With Data Teams</h1>
-                <p>We are seeking automation framework specialists.</p>
-            </section>
-            <section>
-                <h2>Apply For Analytics Engineer</h2>
-                <form id="careerForm" onsubmit="trackFormSubmit(event, 'careerForm', 'job_tier')">
-                    <div class="form-group">
-                        <label for="job_tier">Experience Level</label>
-                        <select id="job_tier"><option value="senior">Senior Engineer</option><option value="principal">Principal Architect</option></select>
-                    </div>
-                    <button type="submit" class="btn">Submit Application</button>
-                </form>
-            </section>
-        </div>
-
-        <!-- PAGE 8: MEDIA HUB (VIDEO OBSERVERS) -->
-        <div id="view-media_hub" class="page-view">
-            <section>
-                <h2>Media Stream Hub</h2>
-                <p>Play the tracking stream video below to execute timing tracking indicators.</p>
-                <video id="sandboxVideo" width="100%" controls>
-                    <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
-                </video>
-            </section>
-        </div>
-
-        <!-- PAGE 9: CONSULTING REQUEST -->
-        <div id="view-consulting" class="page-view">
-            <section>
-                <h2>Enterprise Analytics Consulting</h2>
-                <form id="consultingForm" onsubmit="trackFormSubmit(event, 'consultingForm', 'scope')">
-                    <div class="form-group">
-                        <label for="scope">Project Scope</label>
-                        <select id="scope"><option value="governance">Data Governance Audit</option><option value="tagging">GTM Architecture</option></select>
-                    </div>
-                    <button type="submit" class="btn btn-orange">Submit Scope Proposal</button>
-                </form>
-            </section>
-        </div>
-
-        <!-- PAGE 10: NEWSLETTER SIGNUP -->
-        <div id="view-newsletter" class="page-view">
-            <section>
-                <h2>Newsletter Registration Panel</h2>
-                <form id="newsletterForm" onsubmit="trackFormSubmit(event, 'newsletterForm', 'freq')">
-                    <div class="form-group">
-                        <label for="freq">Update Frequency</label>
-                        <select id="freq"><option value="daily">Daily Briefing</option><option value="weekly">Weekly Digest</option></select>
-                    </div>
-                    <button type="submit" class="btn btn-purple">Subscribe Instantly</button>
-                </form>
-            </section>
-        </div>
-
-        <!-- PAGE 11: GENERAL CONTACT SUPPORT -->
-        <div id="view-contact" class="page-view">
-            <section>
-                <h2>General Help & Support Form</h2>
-                <form id="supportForm" onsubmit="trackFormSubmit(event, 'supportForm', 'issue_type')">
-                    <div class="form-group">
-                        <label for="issue_type">Reporting Category</label>
-                        <select id="issue_type"><option value="bug">Schema Discrepancy</option><option value="inquiry">General Question</option></select>
-                    </div>
-                    <button type="submit" class="btn">File Support Ticket</button>
-                </form>
-            </section>
-        </div>
-
-        <!-- PRIVACY POLICY & TERMS STANDALONE TARGETS (PAGES 12 & 13 FOR OVER-COMPLIANCE) -->
-        <div id="view-privacy" class="page-view">
-            <section><h2>Privacy Framework Regulations</h2><p>Data tracking is governed according to sandbox audit compliance protocols.</p></section>
-        </div>
-        <div id="view-terms" class="page-view">
-            <section><h2>Terms of Platform Service</h2><p>Usage limits are programmatically capped to safe testing simulation windows.</p></section>
-        </div>
-
+        <section class="hero">
+            <h1>Analytics Deep Matrix Sandbox</h1>
+            <p>A standard 5-page website to test web analytics implementations across true page reloads.</p>
+            <a href="shop.html" class="btn">Explore Storefront</a>
+        </section>
     </div>
 
-    <!-- TRACKABLE FOOTER BOUNDARIES -->
     <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>Data Governance Directives</h4>
-                <ul>
-                    <li><a onclick="trackFooterNav(this, 'privacy', 'Privacy Framework Regulations')">Privacy Policy</a></li>
-                    <li><a onclick="trackFooterNav(this, 'terms', 'Terms of Platform Service')">Terms of Service</a></li>
-                </ul>
-            </div>
-        </div>
+        <p>&copy; 2026 AnalyticsDemo Sandbox. All rights reserved.</p>
     </footer>
-
-    <script>
-        let shoppingCartItems = [];
-
-        // CENTRAL ROUTER & PAGE VIEW TELEMETRY SYSTEM
-        // UPDATE: Force full-page reload for each navigation click
-function navigateToView(viewId, pageTitle) {
-    const newUrl = window.location.origin + window.location.pathname + '#' + viewId;
-    
-    // Perform page navigation
-    window.location.href = newUrl;
-    
-    // Force a full browser reload if the page is already on the target hash
-    window.location.reload();
-}
-        function trackNavClick(element, sectionLabel, viewId, pageTitle) {
-            window.dataLayer.push({
-                'event': 'navigation_click',
-                'link_text': element.innerText.trim() || 'Logo Home',
-                'page_section': sectionLabel,
-                'link_url': '#' + viewId
-            });
-            navigateToView(viewId, pageTitle);
-        }
-
-        function trackSubNavClick(element, sectionLabel, viewId, pageTitle) {
-            window.dataLayer.push({
-                'event': 'navigation_click',
-                'link_text': element.innerText.trim(),
-                'page_section': sectionLabel,
-                'link_url': '#' + viewId
-            });
-            if (viewId === 'shop') { handleShopViewTransition(); } else { navigateToView(viewId, pageTitle); }
-        }
-
-        function trackFooterNav(element, viewId, pageTitle) {
-            window.dataLayer.push({
-                'event': 'navigation_click',
-                'link_text': element.innerText.trim(),
-                'page_section': 'Footer Links',
-                'link_url': '#' + viewId
-            });
-            navigateToView(viewId, pageTitle);
-        }
-
-        function trackCtaClick(element, textLabel, htmlId, viewId, pageTitle) {
-            window.dataLayer.push({
-                'event': 'cta_click',
-                'link_text': textLabel,
-                'link_classes': element.className,
-                'link_url': '#' + viewId,
-                'link_id': htmlId
-            });
-            if(viewId !== '#') navigateToView(viewId, pageTitle);
-        }
-
-        // FULL GA4 ECOMMERCE CONVERSION STAGES LOOP
-        function handleShopViewTransition() {
-            navigateToView('shop', 'Hardware Marketplace Storefront');
-            window.dataLayer.push({
-                'event': 'view_item',
-                'ecommerce': { 'currency': 'USD', 'value': 299.98, 'items': [
-                    { item_id: 'p1', item_name: 'Wireless Headphones', price: 99.99, item_category: 'Audio Hardware', quantity: 1 },
-                    { item_id: 'p2', item_name: 'Smart Watch', price: 199.99, item_category: 'Wearable Systems', quantity: 1 }
-                ]}
-            });
-        }
-
-        function addItemToCart(id, name, price, category) {
-            const item = { item_id: id, item_name: name, price: parseFloat(price), item_category: category, quantity: 1 };
-            shoppingCartItems.push(item);
-            window.dataLayer.push({
-                'event': 'add_to_cart',
-                'ecommerce': { 'currency': 'USD', 'value': parseFloat(price), 'items': [item] }
-            });
-            renderCartReviewStage();
-        }
-
-        function renderCartReviewStage() {
-            navigateToView('cart', 'Your Shopping Cart Review');
-            const container = document.getElementById('cart-items-container');
-            container.innerHTML = '';
-            let sum = 0;
-            shoppingCartItems.forEach(item => {
-                sum += item.price;
-                container.innerHTML += `<div class="cart-item-row"><span><strong>${item.item_name}</strong></span><span>$${item.price}</span></div>`;
-            });
-            document.getElementById('cart-total-display').innerText = `Total Value: $${sum.toFixed(2)}`;
-            window.dataLayer.push({ 'event': 'view_cart', 'ecommerce': { 'currency': 'USD', 'value': sum, 'items': shoppingCartItems } });
-        }
-
-        function proceedToCheckoutPhase() {
-            if(shoppingCartItems.length === 0) return alert('Your cart is completely empty.');
-            navigateToView('checkout', 'Checkout Processing Fulfillment');
-            let sum = 0;
-            const breakdown = document.getElementById('checkout-summary-breakdown');
-            breakdown.innerHTML = '';
-            shoppingCartItems.forEach(item => {
-                sum += item.price;
-                breakdown.innerHTML += `<div>${item.item_name} — $${item.price}</div>`;
-            });
-            window.dataLayer.push({ 'event': 'begin_checkout', 'ecommerce': { 'currency': 'USD', 'value': sum, 'items': shoppingCartItems } });
-        }
-
-        function executePurchaseConfirmation(event) {
-            event.preventDefault();
-            let subtotal = 0;
-            shoppingCartItems.forEach(item => subtotal += item.price);
-            const txId = 'TX-' + Math.floor(100000 + Math.random() * 900000);
-            const tax = parseFloat((subtotal * 0.08).toFixed(2));
-            const gross = parseFloat((subtotal + tax + 5.99).toFixed(2));
-
-            window.dataLayer.push({
-                'event': 'purchase',
-                'ecommerce': { 'transaction_id': txId, 'value': gross, 'tax': tax, 'shipping': 5.99, 'currency': 'USD', 'items': shoppingCartItems }
-            });
-            document.getElementById('tx-receipt-id').innerText = `Transaction ID: ${txId}`;
-            navigateToView('success', 'Order Dispatched Confirmation');
-        }
-
-        function resetFunnelState() { shoppingCartItems = []; document.getElementById('purchaseReceiptForm').reset(); navigateToView('home', 'Core Dashboard Sandbox'); }
-
-        // VIDEO TIMELINE LISTENER
-        const video = document.getElementById('sandboxVideo');
-        if (video) {
-            const pushVideoEvent = () => {
-                window.dataLayer.push({ 'event': 'video_start__video_pause', 'video_title': 'Sandbox Architecture Guide Video', 'video_current_time': video.currentTime.toFixed(2) });
-            };
-            video.addEventListener('play', pushVideoEvent);
-            video.addEventListener('pause', pushVideoEvent);
-        }
-
-        // FORM CAPTURING FUNCTION
-        function trackFormSubmit(event, formId, selectId) {
-            event.preventDefault();
-            window.dataLayer.push({ 'event': 'form_submission', 'form_id': formId, 'interest_value': document.getElementById(selectId).value });
-            alert('Form captured successfully!');
-            document.getElementById(formId).reset();
-        }
-    </script>
 </body>
 </html>
