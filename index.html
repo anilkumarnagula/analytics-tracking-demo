@@ -108,38 +108,58 @@
 
     <!-- DYNAMIC NESTED Dropdown HEADER -->
     <header>
-        <nav>
-            <div class="logo">
-                <a href="#home" onclick="trackNavClick(this, 'Header Logo', 'home', 'Core Dashboard Sandbox')"><strong>AnalyticsDemo</strong></a>
-            </div>
-            <ul class="nav-links">
-                <li class="nav-item"><a onclick="trackNavClick(this, 'Header Menu', 'home', 'Core Dashboard Sandbox')">Home</a></li>
-                <li class="nav-item">
-                    <a>E-Commerce ▾</a>
-                    <ul class="dropdown">
-                        <li><a onclick="trackSubNavClick(this, 'Shop Dropdown', 'shop', 'Hardware Marketplace Storefront')">Shop Products (View Item)</a></li>
-                        <li><a onclick="trackSubNavClick(this, 'Shop Dropdown', 'cart', 'Your Shopping Cart Review')">View Cart Stage</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a>Company & Hub ▾</a>
-                    <ul class="dropdown">
-                        <li><a onclick="trackSubNavClick(this, 'Company Dropdown', 'about', 'About Us Corporate Profile')">About Corporate</a></li>
-                        <li><a onclick="trackSubNavClick(this, 'Company Dropdown', 'careers', 'Careers and Opportunities')">Careers Openings</a></li>
-                        <li><a onclick="trackSubNavClick(this, 'Company Dropdown', 'media_hub', 'Video and Media Hub')">Media Stream Hub</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a>Inquiries ▾</a>
-                    <ul class="dropdown">
-                        <li><a onclick="trackSubNavClick(this, 'Inquiry Dropdown', 'consulting', 'Enterprise Analytics Consulting')">Consulting Services</a></li>
-                        <li><a onclick="trackSubNavClick(this, 'Inquiry Dropdown', 'newsletter', 'Newsletter Registration Panel')">Newsletter Signup</a></li>
-                        <li><a onclick="trackSubNavClick(this, 'Inquiry Dropdown', 'contact', 'General Help & Support Form')">Contact Support</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>
-    </header>
+    <nav>
+        <div class="logo">
+            <a href="#home" onclick="trackNavClick(this, 'Header Logo', 'home', 'Core Dashboard Sandbox')">
+                <strong>AnalyticsDemo</strong>
+            </a>
+        </div>
+        <ul class="nav-links">
+            <li class="nav-item">
+                <a href="#home" onclick="trackNavClick(this, 'Header Menu', 'home', 'Core Dashboard Sandbox')">Home</a>
+            </li>
+            <li class="nav-item">
+                <a>E-Commerce ▾</a>
+                <ul class="dropdown">
+                    <li>
+                        <a href="#shop" onclick="trackSubNavClick(this, 'Shop Dropdown', 'shop', 'Hardware Marketplace Storefront')">Shop Products (View Item)</a>
+                    </li>
+                    <li>
+                        <a href="#cart" onclick="trackSubNavClick(this, 'Shop Dropdown', 'cart', 'Your Shopping Cart Review')">View Cart Stage</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a>Company & Hub ▾</a>
+                <ul class="dropdown">
+                    <li>
+                        <a href="#about" onclick="trackSubNavClick(this, 'Company Dropdown', 'about', 'About Us Corporate Profile')">About Corporate</a>
+                    </li>
+                    <li>
+                        <a href="#careers" onclick="trackSubNavClick(this, 'Company Dropdown', 'careers', 'Careers and Opportunities')">Careers Openings</a>
+                    </li>
+                    <li>
+                        <a href="#media_hub" onclick="trackSubNavClick(this, 'Company Dropdown', 'media_hub', 'Video and Media Hub')">Media Stream Hub</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a>Inquiries ▾</a>
+                <ul class="dropdown">
+                    <li>
+                        <a href="#consulting" onclick="trackSubNavClick(this, 'Inquiry Dropdown', 'consulting', 'Enterprise Analytics Consulting')">Consulting Services</a>
+                    </li>
+                    <li>
+                        <a href="#newsletter" onclick="trackSubNavClick(this, 'Inquiry Dropdown', 'newsletter', 'Newsletter Registration Panel')">Newsletter Signup</a>
+                    </li>
+                    <li>
+                        <a href="#contact" onclick="trackSubNavClick(this, 'Inquiry Dropdown', 'contact', 'General Help & Support Form')">Contact Support</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</header>
 
     <div class="container">
 
@@ -319,22 +339,16 @@
         let shoppingCartItems = [];
 
         // CENTRAL ROUTER & PAGE VIEW TELEMETRY SYSTEM
-        function navigateToView(viewId, pageTitle) {
-            document.querySelectorAll('.page-view').forEach(view => view.classList.remove('active-view'));
-            const targetView = document.getElementById('view-' + viewId);
-            if (targetView) targetView.classList.add('active-view');
-
-            const virtualUrl = window.location.origin + window.location.pathname + '#' + viewId;
-            document.title = "Analytics Sandbox - " + pageTitle;
-
-            window.dataLayer.push({
-                'event': 'page_view',
-                'page_location': virtualUrl,
-                'page_title': document.title
-            });
-            window.scrollTo({top: 0, behavior: 'smooth'});
-        }
-
+        // UPDATE: Force full-page reload for each navigation click
+function navigateToView(viewId, pageTitle) {
+    const newUrl = window.location.origin + window.location.pathname + '#' + viewId;
+    
+    // Perform page navigation
+    window.location.href = newUrl;
+    
+    // Force a full browser reload if the page is already on the target hash
+    window.location.reload();
+}
         function trackNavClick(element, sectionLabel, viewId, pageTitle) {
             window.dataLayer.push({
                 'event': 'navigation_click',
