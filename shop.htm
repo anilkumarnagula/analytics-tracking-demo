@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Sandbox - Shop</title>
+    <style>
+        :root { --primary: #2563eb; --dark: #1e293b; --light: #f8fafc; --border: #e2e8f0; --orange: #f97316; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 0; color: var(--dark); background-color: var(--light); display: flex; flex-direction: column; min-height: 100vh; }
+        header { background: white; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+        nav { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 1rem; }
+        .logo a { text-decoration: none; color: #000000; font-size: 1.25rem; font-weight: bold; }
+        .nav-links { display: flex; list-style: none; margin: 0; padding: 0; }
+        .nav-item { margin-left: 1.5rem; }
+        .nav-item a { text-decoration: none; color: var(--dark); font-weight: 500; padding: 0.5rem 0; }
+        .nav-item a.active { color: var(--primary); font-weight: 700; }
+        .container { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; flex: 1; }
+        section { background: white; padding: 2rem; border-radius: 8px; margin-bottom: 2rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .hero { text-align: center; padding: 2rem 1rem; border-radius: 8px; margin-bottom: 2rem; background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%); }
+        .products { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; }
+        .product-card { border: 1px solid var(--border); padding: 1.5rem; border-radius: 6px; text-align: center; background: white; }
+        .btn-orange { background: var(--orange); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 6px; font-weight: 600; cursor: pointer; }
+        footer { background: #1e293b; color: #94a3b8; padding: 2rem 1rem; margin-top: auto; text-align: center; }
+    </style>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+            'page_location': window.location.href,
+            'page_title': document.title,
+            'event': 'view_item_list',
+            'ecommerce': {
+                'currency': 'USD',
+                'items': [
+                    { item_id: 'p1', item_name: 'Wireless Headphones', price: 99.99, item_category: 'Audio Hardware' },
+                    { item_id: 'p2', item_name: 'Smart Watch', price: 199.99, item_category: 'Wearable Systems' }
+                ]
+            }
+        });
+
+        function addToCart(id, name, price, category) {
+            window.dataLayer.push({
+                'event': 'add_to_cart',
+                'ecommerce': {
+                    'currency': 'USD',
+                    'value': price,
+                    'items': [{ item_id: id, item_name: name, price: price, item_category: category, quantity: 1 }]
+                }
+            });
+            alert(name + ' added to cart!');
+        }
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-KQ82FXD7');</script>
+</head>
+<body>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KQ82FXD7" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+    <header>
+        <nav>
+            <div class="logo"><a href="index.html">AnalyticsDemo</a></div>
+            <ul class="nav-links">
+                <li class="nav-item"><a href="index.html">Home</a></li>
+                <li class="nav-item"><a href="shop.html" class="active">Shop</a></li>
+                <li class="nav-item"><a href="about.html">About</a></li>
+                <li class="nav-item"><a href="media.html">Media Hub</a></li>
+                <li class="nav-item"><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <section class="hero">
+            <h1>Hardware Marketplace Storefront</h1>
+            <p>Browse products and fire conversion telemetry actions.</p>
+        </section>
+        <section>
+            <h2>Available Inventory</h2>
+            <div class="products">
+                <div class="product-card">
+                    <h3>Wireless Headphones</h3>
+                    <p>$99.99</p>
+                    <button class="btn-orange" onclick="addToCart('p1', 'Wireless Headphones', 99.99, 'Audio Hardware')">Add to Cart</button>
+                </div>
+                <div class="product-card">
+                    <h3>Smart Watch</h3>
+                    <p>$199.99</p>
+                    <button class="btn-orange" onclick="addToCart('p2', 'Smart Watch', 199.99, 'Wearable Systems')">Add to Cart</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 AnalyticsDemo Sandbox. All rights reserved.</p>
+    </footer>
+</body>
+</html>
