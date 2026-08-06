@@ -5,25 +5,295 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Analytics Sandbox - Home</title>
     <style>
-        :root { --primary: #2563eb; --dark: #1e293b; --light: #f8fafc; --border: #e2e8f0; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 0; color: var(--dark); background-color: var(--light); display: flex; flex-direction: column; min-height: 100vh; }
-        header { background: white; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
-        nav { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 1rem; }
-        .logo a { text-decoration: none; color: #000000; font-size: 1.25rem; font-weight: bold; }
-        .nav-links { display: flex; list-style: none; margin: 0; padding: 0; }
-        .nav-item { position: relative; margin-left: 1.5rem; }
-        .nav-item > a { text-decoration: none; color: var(--dark); font-weight: 500; padding: 0.5rem 0; display: inline-block; }
-        .nav-item > a.active { color: var(--primary); font-weight: 700; }
-        .dropdown { display: none; position: absolute; top: 100%; left: 0; background: white; border: 1px solid var(--border); border-radius: 6px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); min-width: 180px; padding: 0.5rem 0; list-style: none; margin: 0; z-index: 101; }
-        .dropdown li a { display: block; padding: 0.5rem 1rem; color: var(--dark); text-decoration: none; font-size: 0.9rem; }
-        .dropdown li a:hover { background: #f1f5f9; color: var(--primary); }
-        .nav-item:hover .dropdown { display: block; }
-        .container { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; flex: 1; }
-        section { background: white; padding: 2rem; border-radius: 8px; margin-bottom: 2rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-        .hero { text-align: center; padding: 3rem 1rem; border-radius: 8px; margin-bottom: 2rem; background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); }
-        .btn { display: inline-block; text-decoration: none; background: var(--primary); color: white; padding: 0.75rem 1.5rem; border-radius: 6px; font-weight: 600; }
-        footer { background: #1e293b; color: #94a3b8; padding: 2rem 1rem; margin-top: auto; text-align: center; }
+        :root {
+            --primary: #2563eb;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --border: #e2e8f0;
+            --orange: #f97316;
+            --purple: #7c3aed;
+            --success: #16a34a;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--dark);
+            background-color: var(--light);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* HEADER & NAVIGATION */
+        header {
+            background: white;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .logo a {
+            text-decoration: none;
+            color: #000000;
+            font-size: 1.25rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-item {
+            position: relative;
+            margin-left: 1.5rem;
+        }
+
+        .nav-item > a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            padding: 0.5rem 0;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .nav-item > a.active {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        /* DROPDOWN MENU */
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            min-width: 200px;
+            padding: 0.5rem 0;
+            list-style: none;
+            margin: 0;
+            z-index: 101;
+        }
+
+        .dropdown li a {
+            display: block;
+            padding: 0.5rem 1rem;
+            color: var(--dark);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .dropdown li a:hover {
+            background: #f1f5f9;
+            color: var(--primary);
+        }
+
+        .nav-item:hover .dropdown {
+            display: block;
+        }
+
+        /* LAYOUT & SECTIONS */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            flex: 1;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        section {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero {
+            text-align: center;
+            padding: 3.5rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+        }
+
+        .hero h1 {
+            font-size: 2.25rem;
+            margin-bottom: 0.75rem;
+            color: var(--dark);
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: #475569;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            margin: 0;
+            color: var(--dark);
+        }
+
+        /* BUTTONS */
+        .btn {
+            display: inline-block;
+            text-decoration: none;
+            background: var(--primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: background 0.2s ease;
+        }
+
+        .btn:hover {
+            opacity: 0.95;
+        }
+
+        .btn-orange { background: var(--orange); }
+        .btn-purple { background: var(--purple); }
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        /* CARDS & GRID */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .card-body {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-tag {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            margin: 0 0 0.5rem 0;
+            color: var(--dark);
+        }
+
+        .card-text {
+            color: #64748b;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 1.25rem;
+            flex: 1;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #1e293b;
+            color: #94a3b8;
+            padding: 3rem 1rem 2rem 1rem;
+            margin-top: auto;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: left;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #334155;
+        }
+
+        .footer-col h4 {
+            color: white;
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+
+        .footer-col ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-col li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-col a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .footer-col a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 1.5rem auto 0 auto;
+            text-align: center;
+            font-size: 0.875rem;
+        }
     </style>
+
     <script>
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({
@@ -39,7 +309,17 @@
                 'link_url': url
             });
         }
+
+        function trackCtaClick(element, textLabel, sectionLabel, url) {
+            window.dataLayer.push({
+                'event': 'cta_click',
+                'link_text': textLabel,
+                'page_section': sectionLabel,
+                'link_url': url
+            });
+        }
     </script>
+
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -50,6 +330,7 @@
 <body>
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KQ82FXD7" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
+    <!-- HEADER NAVIGATION -->
     <header>
         <nav>
             <div class="logo">
@@ -60,51 +341,143 @@
                     <a href="index.html" class="active" onclick="trackNavClick(this, 'Main Nav', 'index.html')">Home ▾</a>
                     <ul class="dropdown">
                         <li><a href="index.html" onclick="trackNavClick(this, 'Home SubNav', 'index.html')">Overview</a></li>
-                        <li><a href="index.html" onclick="trackNavClick(this, 'Home SubNav', 'index.html')">Dashboard</a></li>
+                        <li><a href="index.html#features" onclick="trackNavClick(this, 'Home SubNav', 'index.html#features')">Dashboard Highlights</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
                     <a href="shop.html" onclick="trackNavClick(this, 'Main Nav', 'shop.html')">Shop ▾</a>
                     <ul class="dropdown">
                         <li><a href="shop.html" onclick="trackNavClick(this, 'Shop SubNav', 'shop.html')">All Products</a></li>
-                        <li><a href="shop.html" onclick="trackNavClick(this, 'Shop SubNav', 'shop.html')">Featured Inventory</a></li>
+                        <li><a href="shop.html#featured" onclick="trackNavClick(this, 'Shop SubNav', 'shop.html#featured')">Featured Inventory</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
                     <a href="about.html" onclick="trackNavClick(this, 'Main Nav', 'about.html')">About ▾</a>
                     <ul class="dropdown">
                         <li><a href="about.html" onclick="trackNavClick(this, 'About SubNav', 'about.html')">Company Profile</a></li>
-                        <li><a href="about.html" onclick="trackNavClick(this, 'About SubNav', 'about.html')">Leadership</a></li>
+                        <li><a href="about.html#leadership" onclick="trackNavClick(this, 'About SubNav', 'about.html#leadership')">Leadership</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
                     <a href="media.html" onclick="trackNavClick(this, 'Main Nav', 'media.html')">Media Hub ▾</a>
                     <ul class="dropdown">
                         <li><a href="media.html" onclick="trackNavClick(this, 'Media SubNav', 'media.html')">Video Stream</a></li>
-                        <li><a href="media.html" onclick="trackNavClick(this, 'Media SubNav', 'media.html')">Resources</a></li>
+                        <li><a href="media.html#resources" onclick="trackNavClick(this, 'Media SubNav', 'media.html#resources')">Resources</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
                     <a href="contact.html" onclick="trackNavClick(this, 'Main Nav', 'contact.html')">Contact ▾</a>
                     <ul class="dropdown">
                         <li><a href="contact.html" onclick="trackNavClick(this, 'Contact SubNav', 'contact.html')">Support Request</a></li>
-                        <li><a href="contact.html" onclick="trackNavClick(this, 'Contact SubNav', 'contact.html')">Inquiries</a></li>
+                        <li><a href="contact.html#inquiries" onclick="trackNavClick(this, 'Contact SubNav', 'contact.html#inquiries')">Inquiries</a></li>
                     </ul>
                 </li>
             </ul>
         </nav>
     </header>
 
+    <!-- MAIN CONTAINER -->
     <div class="container">
+        <!-- HERO SECTION -->
         <section class="hero">
             <h1>Analytics Deep Matrix Sandbox</h1>
-            <p>A standard 5-page website to test web analytics implementations across true page reloads.</p>
-            <a href="shop.html" class="btn" onclick="trackNavClick(this, 'Hero CTA', 'shop.html')">Explore Storefront</a>
+            <p>A standard multi-page website to test web analytics implementations across true page reloads.</p>
+            <a href="shop.html" class="btn" onclick="trackCtaClick(this, 'Explore Storefront', 'Hero CTA', 'shop.html')">Explore Storefront</a>
+        </section>
+
+        <!-- FEATURED PROGRAMMES SECTION -->
+        <section id="features">
+            <div class="section-header">
+                <h2 class="section-title">Featured Highlights</h2>
+                <a href="shop.html" class="btn btn-outline" onclick="trackNavClick(this, 'Section Link', 'shop.html')">View All Items →</a>
+            </div>
+
+            <div class="grid-3">
+                <article class="card">
+                    <div class="card-body">
+                        <span class="card-tag">Interactive Workshop</span>
+                        <h3 class="card-title">Data Analytics Summer Series</h3>
+                        <p class="card-text">Explore interactive modules, hands-on learning labs, and practical implementation frameworks.</p>
+                        <a href="shop.html" class="btn btn-orange" onclick="trackCtaClick(this, 'Learn More - Summer Series', 'Highlights Grid', 'shop.html')">Learn More</a>
+                    </div>
+                </article>
+
+                <article class="card">
+                    <div class="card-body">
+                        <span class="card-tag">Virtual Session</span>
+                        <h3 class="card-title">Digital Educational Tours</h3>
+                        <p class="card-text">Connecting classrooms and technical teams directly through virtual interactive guided tours.</p>
+                        <a href="media.html" class="btn btn-purple" onclick="trackCtaClick(this, 'Explore Tours', 'Highlights Grid', 'media.html')">Explore Tours</a>
+                    </div>
+                </article>
+
+                <article class="card">
+                    <div class="card-body">
+                        <span class="card-tag">Resource Hub</span>
+                        <h3 class="card-title">Research & Insights</h3>
+                        <p class="card-text">Access technical documentation, telemetry guidelines, and system data dictionaries.</p>
+                        <a href="about.html" class="btn" onclick="trackCtaClick(this, 'Read Documentation', 'Highlights Grid', 'about.html')">Read Documentation</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- NEWS & UPDATES SECTION -->
+        <section>
+            <div class="section-header">
+                <h2 class="section-title">Latest Announcements</h2>
+            </div>
+            <div class="grid-3">
+                <article class="card">
+                    <div class="card-body">
+                        <span class="card-tag">Update</span>
+                        <h3 class="card-title">New Telemetry Standards Released</h3>
+                        <p class="card-text">Standardized event schemas and updated payload parameters are now live across all environments.</p>
+                        <a href="media.html" onclick="trackNavClick(this, 'News Article', 'media.html')" style="color: var(--primary); font-weight: 600; text-decoration: none;">Read Announcement →</a>
+                    </div>
+                </article>
+
+                <article class="card">
+                    <div class="card-body">
+                        <span class="card-tag">Community</span>
+                        <h3 class="card-title">Global Education Outreach</h3>
+                        <p class="card-text">Our technical training sessions have successfully reached thousands of students globally this quarter.</p>
+                        <a href="about.html" onclick="trackNavClick(this, 'News Article', 'about.html')" style="color: var(--primary); font-weight: 600; text-decoration: none;">Read Announcement →</a>
+                    </div>
+                </article>
+            </div>
         </section>
     </div>
 
+    <!-- FOOTER -->
     <footer>
-        <p>&copy; 2026 AnalyticsDemo Sandbox. All rights reserved.</p>
+        <div class="footer-container">
+            <div class="footer-col">
+                <h4>Navigation</h4>
+                <ul>
+                    <li><a href="index.html" onclick="trackNavClick(this, 'Footer Nav', 'index.html')">Home</a></li>
+                    <li><a href="shop.html" onclick="trackNavClick(this, 'Footer Nav', 'shop.html')">Storefront</a></li>
+                    <li><a href="about.html" onclick="trackNavClick(this, 'Footer Nav', 'about.html')">Company Profile</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="media.html" onclick="trackNavClick(this, 'Footer Nav', 'media.html')">Media Hub</a></li>
+                    <li><a href="contact.html" onclick="trackNavClick(this, 'Footer Nav', 'contact.html')">Help & Support</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="about.html#privacy" onclick="trackNavClick(this, 'Footer Nav', 'about.html#privacy')">Privacy Policy</a></li>
+                    <li><a href="about.html#terms" onclick="trackNavClick(this, 'Footer Nav', 'about.html#terms')">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 AnalyticsDemo Sandbox. All rights reserved.</p>
+        </div>
     </footer>
 </body>
 </html>
