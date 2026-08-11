@@ -92,6 +92,32 @@
             list-style: none;
             margin: 0;
             z-index: 101;
+            /* Ensure dropdown list items are relative containers for nested flyouts */
+.dropdown li {
+    position: relative;
+}
+
+/* 2ND-LEVEL SUB-DROPDOWN MENU */
+.dropdown .sub-dropdown {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 100%; /* Positions the flyout menu directly to the right */
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    min-width: 180px;
+    padding: 0.5rem 0;
+    list-style: none;
+    margin: 0;
+    z-index: 102;
+}
+
+/* Display flyout menu when hovering over the parent <li> */
+.dropdown li:hover > .sub-dropdown {
+    display: block;
+}
         }
 
         .dropdown li a {
@@ -338,12 +364,27 @@
             </div>
             <ul class="nav-links">
                 <li class="nav-item">
-                    <a href="index.html" class="active" onclick="trackNavClick(this, 'Main Nav', 'index.html')">Home ▾</a>
-                    <ul class="dropdown">
-                        <li><a href="index.html" onclick="trackNavClick(this, 'Home SubNav', 'index.html')">Overview</a></li>
-                        <li><a href="index.html#features" onclick="trackNavClick(this, 'Home SubNav', 'index.html#features')">Dashboard Highlights</a></li>
-                    </ul>
-                </li>
+    <a href="index.html" class="active" onclick="trackNavClick(this, 'Main Nav', 'index.html')">Home ▾</a>
+    <ul class="dropdown">
+        <!-- Overview with 2nd-level Subnavigation -->
+        <li>
+            <a href="index.html" onclick="trackNavClick(this, 'Home SubNav', 'index.html')">Overview ▶</a>
+            <ul class="sub-dropdown">
+                <li><a href="index.html#summary" onclick="trackNavClick(this, 'Overview SubNav', 'index.html#summary')">Summary</a></li>
+                <li><a href="index.html#metrics" onclick="trackNavClick(this, 'Overview SubNav', 'index.html#metrics')">Key Metrics</a></li>
+            </ul>
+        </li>
+
+        <!-- Dashboard Highlights with 2nd-level Subnavigation -->
+        <li>
+            <a href="index.html#features" onclick="trackNavClick(this, 'Home SubNav', 'index.html#features')">Dashboard Highlights ▶</a>
+            <ul class="sub-dropdown">
+                <li><a href="index.html#realtime" onclick="trackNavClick(this, 'Dashboard SubNav', 'index.html#realtime')">Realtime Analytics</a></li>
+                <li><a href="index.html#reports" onclick="trackNavClick(this, 'Dashboard SubNav', 'index.html#reports')">User Reports</a></li>
+            </ul>
+        </li>
+    </ul>
+</li>
                 <li class="nav-item">
                     <a href="shop.html" onclick="trackNavClick(this, 'Main Nav', 'shop.html')">Shop ▾</a>
                     <ul class="dropdown">
