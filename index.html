@@ -533,7 +533,10 @@
                 'link_url': url
             });
         }
+
+        
     </script>
+    
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
@@ -599,15 +602,16 @@
                 </li>
 
                 <!-- NAV LOGIN BUTTON / USER PROFILE DROPDOWN CONTAINER -->
-                <li class="nav-item" id="navAuthContainer">
-                    <a href="javascript:void(0)" class="btn-nav-login" id="navLoginBtn">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="12" cy="7" r="4"></circle>
-                        </svg>
-                        Sign In
-                    </a>
-                </li>
+            <!-- NAV LOGIN CONTAINER -->
+<li class="nav-item" id="navAuthContainer">
+    <button type="button" class="btn-nav-login" onclick="openAuthModal()" id="navLoginBtn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 4px;">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+        Sign In
+    </button>
+</li>
             </ul>
         </nav>
     </header>
@@ -768,105 +772,175 @@
 
     <!-- AUTHENTICATION & ANALYTICS SCRIPT -->
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const modal = document.getElementById('authModal');
-            const closeBtn = document.getElementById('closeAuthModal');
-            const form = document.getElementById('formalLoginForm');
-            const emailInput = document.getElementById('loginEmail');
-            const passwordInput = document.getElementById('loginPassword');
-            const guestBtn = document.getElementById('btnGuestLogin');
-            const fillDemoBtn = document.getElementById('btnFillDemoCreds');
-            const emailError = document.getElementById('emailError');
-            const passwordError = document.getElementById('passwordError');
-            const navAuthContainer = document.getElementById('navAuthContainer');
+// Expose modal handlers globally so inline onclick works immediately
+window.openAuthModal = function() {
+    const modal = document.getElementById('authModal');
+    if (modal) {
+        modal.style.display = 'flex';
+        const emailErr = document.getElementById('emailError');
+        const passErr = document.getElementById('passwordError');
+        if (emailErr) emailErr.textContent = '';
+        if (passErr) passErr.textContent = '';
+    } else {
+        console.error('authModal element not found in DOM.');
+    }
+};
 
-            // --- Modal Open/Close Controls ---
-            window.openAuthModal = function() {
-                modal.style.display = 'flex';
-                clearErrors();
+window.closeAuthModal = function() {
+    const modal = document.getElementById('authModal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+};
+
+(function() {
+    function initAuth() {
+        const modal = document.getElementById('authModal');
+        const closeBtn = document.getElementById('closeAuthModal');
+        const form = document.getElementById('formalLoginForm');
+        const emailInput = document.getElementById('loginEmail');
+        const passwordInput = document.getElementById('loginPassword');
+        const guestBtn = document.getElementById('btnGuestLogin');
+        const fillDemoBtn = document.getElementById('btnFillDemoCreds');
+        const navAuthContainer = document.getElementById('navAuthContainer');
+
+        // Close button click
+        if (closeBtn) {
+            closeBtn.onclick = function() {
+                window.closeAuthModal();
             };
+        }
 
-            window.closeAuthModal = function() {
-                modal.style.display = 'none';
-                clearErrors();
+        // Close when clicking outside modal card
+        if (modal) {
+            modal.onclick = function(e) {
+                if (e.target === modal) window.closeAuthModal();
             };
+        }
 
-            closeBtn.addEventListener('click', closeAuthModal);
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) closeAuthModal();
-            });
+        // Safe dataLayer push helper
+        function trackEvent(name, params) {
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push(Object.assign({ event: name, timestamp: new Date().toISOString() }, params));
+            console.log('[Analytics Event]', name, params);
+        }
 
-            function clearErrors() {
-                emailError.textContent = '';
-                passwordError.textContent = '';
-            }
+        // Update nav bar for logged-in or logged-out state
+        function renderNav(user) {
+            if (!navAuthContainer) return;
+            if (user) {
+                navAuthContainer.innerHTML = `
+                    <a href="javascript:void(0)" class="btn-nav-user" id="navUserMenu">
+                        👤 ${user.displayName || user.email} ▾
+                    </a>
+                    <ul class="dropdown" style="right: 0; left: auto;">
+                        <li><a href="javascript:void(0)" style="font-size: 0.8rem; color: #64748b; cursor: default;">Role: ${user.role}</a></li>
+                        <li><a href="javascript:void(0)" id="navLogoutBtn" style="color: #dc2626;">Sign Out</a></li>
+                    </ul>
+                `;
 
-            // --- Central DataLayer Dispatcher ---
-            function pushAuthDataLayer(eventName, params = {}) {
-                window.dataLayer = window.dataLayer || [];
-                window.dataLayer.push({
-                    event: eventName,
-                    timestamp: new Date().toISOString(),
-                    ...params
-                });
-                console.log(`[DataLayer Push: ${eventName}]`, params);
-            }
-
-            // --- UI Auth State Handler ---
-            function renderAuthState(user) {
-                if (user) {
-                    navAuthContainer.innerHTML = `
-                        <a href="javascript:void(0)" class="btn-nav-user" id="navUserMenu">
-                            👤 ${user.displayName || user.email} ▾
-                        </a>
-                        <ul class="dropdown" style="right: 0; left: auto;">
-                            <li><a href="javascript:void(0)" style="font-size: 0.8rem; color: #64748b; cursor: default;">Role: ${user.role}</a></li>
-                            <li><a href="javascript:void(0)" id="navLogoutBtn" style="color: #dc2626;">Sign Out</a></li>
-                        </ul>
-                    `;
-
-                    document.getElementById('navLogoutBtn').addEventListener('click', () => {
-                        pushAuthDataLayer('logout', {
-                            method: user.login_type,
-                            user_id: user.id
-                        });
+                const logoutBtn = document.getElementById('navLogoutBtn');
+                if (logoutBtn) {
+                    logoutBtn.onclick = function() {
+                        trackEvent('logout', { method: user.login_type, user_id: user.id });
                         localStorage.removeItem('analytics_auth_user');
-                        renderAuthState(null);
-                    });
-                } else {
-                    navAuthContainer.innerHTML = `
-                        <a href="javascript:void(0)" class="btn-nav-login" id="navLoginBtn">
-                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                <circle cx="12" cy="7" r="4"></circle>
-                            </svg>
-                            Sign In
-                        </a>
-                    `;
-                    document.getElementById('navLoginBtn').addEventListener('click', openAuthModal);
+                        renderNav(null);
+                    };
                 }
+            } else {
+                navAuthContainer.innerHTML = `
+                    <button type="button" class="btn-nav-login" onclick="openAuthModal()" id="navLoginBtn">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 4px;">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        Sign In
+                    </button>
+                `;
             }
+        }
 
-            function completeLogin(userPayload) {
-                localStorage.setItem('analytics_auth_user', JSON.stringify(userPayload));
+        function handleLoginSuccess(userPayload) {
+            localStorage.setItem('analytics_auth_user', JSON.stringify(userPayload));
+            trackEvent('login', {
+                method: userPayload.login_type,
+                user_id: userPayload.id,
+                user_role: userPayload.role
+            });
+            window.closeAuthModal();
+            renderNav(userPayload);
+        }
 
-                pushAuthDataLayer('login', {
-                    method: userPayload.login_type,
-                    user_id: userPayload.id,
-                    user_role: userPayload.role
-                });
-
-                closeAuthModal();
-                renderAuthState(userPayload);
-            }
-
-            // --- 1. Formal Login Submission ---
-            form.addEventListener('submit', (e) => {
+        // Formal Login submission
+        if (form) {
+            form.onsubmit = function(e) {
                 e.preventDefault();
-                clearErrors();
+                const email = emailInput ? emailInput.value.trim() : '';
+                const password = passwordInput ? passwordInput.value : '';
+                const emailErr = document.getElementById('emailError');
+                const passErr = document.getElementById('passwordError');
 
-                const email = emailInput.value.trim();
-                const password = passwordInput.value;
-                let isValid = true;
+                if (emailErr) emailErr.textContent = '';
+                if (passErr) passErr.textContent = '';
 
-                push
+                trackEvent('login_attempt', { method: 'formal' });
+
+                let valid = true;
+                if (!email || !email.includes('@')) {
+                    if (emailErr) emailErr.textContent = 'Enter a valid email address.';
+                    valid = false;
+                }
+                if (!password || password.length < 6) {
+                    if (passErr) passErr.textContent = 'Password must be at least 6 characters.';
+                    valid = false;
+                }
+                if (!valid) return;
+
+                handleLoginSuccess({
+                    id: 'usr_' + Math.floor(Math.random() * 90000 + 10000),
+                    email: email,
+                    displayName: email.split('@')[0],
+                    role: 'authenticated_user',
+                    login_type: 'formal'
+                });
+            };
+        }
+
+        // Guest Login button
+        if (guestBtn) {
+            guestBtn.onclick = function() {
+                trackEvent('login_attempt', { method: 'guest' });
+                handleLoginSuccess({
+                    id: 'guest_' + Math.random().toString(36).substring(2, 9),
+                    email: null,
+                    displayName: 'Guest Demo',
+                    role: 'guest',
+                    login_type: 'guest'
+                });
+            };
+        }
+
+        // Pre-fill demo button
+        if (fillDemoBtn) {
+            fillDemoBtn.onclick = function() {
+                if (emailInput) emailInput.value = 'demo@analytictest.com';
+                if (passwordInput) passwordInput.value = 'sandbox123';
+            };
+        }
+
+        // Check for existing saved session
+        try {
+            const saved = localStorage.getItem('analytics_auth_user');
+            if (saved) renderNav(JSON.parse(saved));
+        } catch (e) {
+            console.warn('Storage parsing error', e);
+        }
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initAuth);
+    } else {
+        initAuth();
+    }
+})();
+</script>
